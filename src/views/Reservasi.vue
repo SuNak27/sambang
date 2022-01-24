@@ -193,14 +193,24 @@ export default {
             .appendTo("#datareservasi_wrapper .col-md-6:eq(0)");
         });
       })
-      .catch((error) => console.log(error));
+      .catch(function (error) {
+        if (error.response) {
+          localStorage.removeItem("token");
+          this.$router.go();
+        }
+      });
 
     axios
       .get("http://localhost:3000/pertemuan")
       .then((response) => {
         this.pertemuan = response.data;
       })
-      .catch((error) => console.log(error));
+      .catch(function (error) {
+        if (error.response) {
+          localStorage.removeItem("token");
+          this.$router.go();
+        }
+      });
 
     axios
       .get(

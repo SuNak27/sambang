@@ -211,12 +211,22 @@ export default {
     axios
       .get("http://localhost:3000/shift")
       .then((response) => (this.shift = response.data))
-      .catch((error) => console.log(error));
+      .catch(function (error) {
+        if (error.response) {
+          localStorage.removeItem("token");
+          this.$router.go();
+        }
+      });
 
     axios
       .get("http://localhost:3000/wilayah")
       .then((response) => (this.wilayah = response.data))
-      .catch((error) => console.log(error));
+      .catch(function (error) {
+        if (error.response) {
+          localStorage.removeItem("token");
+          this.$router.go();
+        }
+      });
   },
 };
 </script>

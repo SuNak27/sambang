@@ -58,6 +58,7 @@
 <script>
 import Navbar from "../Navbar.vue";
 import Sidebar from "../Sidebar.vue";
+// import { mapGetters } from "vuex";
 
 export default {
   name: "Dashboard",
@@ -67,8 +68,7 @@ export default {
   },
   methods: {
     logout() {
-      localStorage.setItem("status", false);
-      localStorage.removeItem("username");
+      localStorage.removeItem("token");
       this.$router.push("/login");
     },
   },

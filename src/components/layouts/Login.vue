@@ -96,9 +96,7 @@ export default {
             password: this.password,
           })
           .then((response) => {
-            localStorage.setItem("status", response.data.status);
-            localStorage.setItem("nama", response.data.nama);
-            localStorage.setItem("foto", response.data.foto);
+            localStorage.setItem("token", JSON.stringify(response.data.token));
             this.$router.go();
             toastr.success("Berhasil");
           })

@@ -20,6 +20,11 @@ import Cetak from "../views/Cetak.vue";
 import Informasi from "../views/Informasi.vue";
 import TambahInformasi from "../views/TambahInformasi.vue";
 import EditInformasi from "../views/EditInformasi.vue";
+import axios from "axios";
+
+axios.defaults.headers.common["X-Sambang-Token"] = JSON.parse(
+  localStorage.getItem("token")
+);
 
 Vue.use(VueRouter);
 const routes = [
@@ -133,9 +138,8 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const status = JSON.parse(localStorage.getItem("status"));
-
-  if (to.name !== "Login" && !status) next({ name: "Login" });
+  const status = JSON.parse(localStorage.getItem("token"));
+  if (to.name !== "Login" && status == null) next({ name: "Login" });
   if (to.name === "Login" && status) next({ path: "/" });
   else next();
 });

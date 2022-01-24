@@ -417,19 +417,39 @@ export default {
     axios
       .get("http://localhost:3000/santri")
       .then((response) => (this.santri = response.data))
-      .catch((error) => console.log(error));
+      .catch(function (error) {
+        if (error.response) {
+          localStorage.removeItem("token");
+          this.$router.go();
+        }
+      });
     axios
       .get("http://localhost:3000/shift")
       .then((response) => (this.shift = response.data))
-      .catch((error) => console.log(error));
+      .catch(function (error) {
+        if (error.response) {
+          localStorage.removeItem("token");
+          this.$router.go();
+        }
+      });
     axios
       .get("http://localhost:3000/hari")
       .then((response) => (this.hari = response.data))
-      .catch((error) => console.log(error));
+      .catch(function (error) {
+        if (error.response) {
+          localStorage.removeItem("token");
+          this.$router.go();
+        }
+      });
     axios
       .get("http://localhost:3000/reservasiId")
       .then((response) => (this.reservasiId = response.data))
-      .catch((err) => console.log("Gagal", err));
+      .catch(function (error) {
+        if (error.response) {
+          localStorage.removeItem("token");
+          this.$router.go();
+        }
+      });
   },
   computed: {
     disabledSantri() {

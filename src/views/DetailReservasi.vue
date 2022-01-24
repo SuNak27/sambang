@@ -132,7 +132,12 @@ export default {
             .appendTo("#detailWali_wrapper .col-md-6:eq(0)");
         });
       })
-      .catch((error) => console.log(error));
+      .catch(function (error) {
+        if (error.response) {
+          localStorage.removeItem("token");
+          this.$router.go();
+        }
+      });
   },
 };
 </script>

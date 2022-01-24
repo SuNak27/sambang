@@ -167,7 +167,12 @@ export default {
     axios
       .get("http://localhost:3000/informasi/" + this.$route.params.id)
       .then((response) => (this.informasi = response.data))
-      .catch((error) => console.log(error));
+      .catch(function (error) {
+        if (error.response) {
+          localStorage.removeItem("token");
+          this.$router.go();
+        }
+      });
   },
 };
 </script>
