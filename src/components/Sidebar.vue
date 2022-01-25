@@ -49,7 +49,7 @@
               <p>Beranda</p>
             </router-link>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="role == 'sysadmin'">
             <a href="" class="nav-link">
               <i class="nav-icon fas fa-sliders-h"></i>
               <p>
@@ -107,7 +107,7 @@
               <p>Cetak Data Sambang</p>
             </router-link>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="role == 'sysadmin'">
             <router-link to="/informasi" class="nav-link">
               <i class="nav-icon fas fa-info-circle"></i>
               <p>Informasi</p>
@@ -138,9 +138,9 @@ export default {
   name: "Sidebar",
   data() {
     return {
-      username: localStorage.getItem("nama"),
-      foto: localStorage.getItem("foto"),
-      // foto: "/pengurus/ahmad.jpg",
+      username: sessionStorage.getItem("user"),
+      // foto: localStorage.getItem("foto"),
+      role: sessionStorage.getItem("role"),
     };
   },
 };

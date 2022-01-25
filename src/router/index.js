@@ -41,18 +41,8 @@ const routes = [
   {
     path: "/",
     component: Dashboard,
-    beforeEnter: (to, form, next) => {
-      axios
-        .get("http://localhost:3000/user")
-        .then(() => {
-          next();
-        })
-        .catch((error) => {
-          if (error.response.status == 401) {
-            localStorage.removeItem("token");
-            next({ name: "Login" });
-          }
-        });
+    meta: {
+      requiresAuth: true,
     },
     children: [
       {
@@ -64,36 +54,57 @@ const routes = [
         path: "settingHari",
         name: "SettingHari",
         component: SettingHari,
+        meta: {
+          is_admin: true,
+        },
       },
       {
         path: "tambah_hari",
         name: "TambahHari",
         component: TambahHari,
+        meta: {
+          is_admin: true,
+        },
       },
       {
         path: "edit_hari/:id",
         name: "EditHari",
         component: EditHari,
+        meta: {
+          is_admin: true,
+        },
       },
       {
         path: "shift",
         name: "Shift",
         component: Shift,
+        meta: {
+          is_admin: true,
+        },
       },
       {
         path: "tambah_shift",
         name: "TambahShift",
         component: TambahShift,
+        meta: {
+          is_admin: true,
+        },
       },
       {
         path: "edit_shift/:id",
         name: "EditShift",
         component: EditShift,
+        meta: {
+          is_admin: true,
+        },
       },
       {
         path: "pertemuan",
         name: "Pertemuan",
         component: Pertemuan,
+        meta: {
+          is_admin: true,
+        },
       },
       {
         path: "reservasi",
@@ -114,6 +125,9 @@ const routes = [
         path: "konfirmasi/:id",
         name: "Konfirmasi",
         component: Konfirmasi,
+        meta: {
+          is_admin: true,
+        },
       },
       {
         path: "history",
@@ -129,16 +143,25 @@ const routes = [
         path: "informasi",
         name: "Informasi",
         component: Informasi,
+        meta: {
+          is_admin: true,
+        },
       },
       {
         path: "tambahInformasi",
         name: "TambahInformasi",
         component: TambahInformasi,
+        meta: {
+          is_admin: true,
+        },
       },
       {
         path: "editInformasi/:id",
         name: "EditInformasi",
         component: EditInformasi,
+        meta: {
+          is_admin: true,
+        },
       },
     ],
   },
@@ -152,9 +175,21 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const status = JSON.parse(localStorage.getItem("token"));
-  if (to.name !== "Login" && status == null) next({ name: "Login" });
-  if (to.name === "Login" && status) next({ path: "/" });
-  else next();
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (to.name !== "Login" && status == null) {
+    next({ name: "Login" });
+  } else if (to.name === "Login" && status) {
+    next({ path: "/" });
+  } else {
+    if (to.matched.some((record) => record.meta.is_admin)) {
+      if (user == "sysadmin") {
+        next();
+      } else {
+        next({ path: "/" });
+      }
+    }
+    next();
+  }
 });
 
 export default router;

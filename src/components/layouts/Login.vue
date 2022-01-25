@@ -83,7 +83,6 @@ export default {
     return {
       username: "",
       password: "",
-      user: {},
       type: "password",
       icon: "fas fa-eye",
     };
@@ -98,10 +97,10 @@ export default {
           })
           .then((response) => {
             localStorage.setItem("token", JSON.stringify(response.data.token));
-            // this.user = response.data.role;
-            // if (this.user == "sysadmin") {
-            //   console.log("Admin");
-            // }
+            localStorage.setItem("user", JSON.stringify(response.data.role));
+            sessionStorage.setItem("role", response.data.role);
+            sessionStorage.setItem("user", response.data.nama);
+
             this.$router.go();
             toastr.success("Berhasil");
           })
