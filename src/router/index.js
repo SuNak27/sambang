@@ -41,6 +41,19 @@ const routes = [
   {
     path: "/",
     component: Dashboard,
+    beforeEnter: (to, form, next) => {
+      axios
+        .get("http://localhost:3000/user")
+        .then(() => {
+          next();
+        })
+        .catch((error) => {
+          if (error.response.status == 401) {
+            localStorage.removeItem("token");
+            next({ name: "Login" });
+          }
+        });
+    },
     children: [
       {
         path: "",

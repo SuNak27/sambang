@@ -148,10 +148,10 @@ export default {
             .appendTo("#datareservasi_wrapper .col-md-6:eq(0)");
         });
       })
-      .catch(function (error) {
-        if (error.response) {
+      .catch((error) => {
+        if (error.response.status == 401) {
           localStorage.removeItem("token");
-          this.$router.go();
+          this.$router.push({ name: "Login" });
         }
       });
 
@@ -163,7 +163,7 @@ export default {
       .catch(function (error) {
         if (error.response) {
           localStorage.removeItem("token");
-          this.$router.go();
+          this.$router.push("/login");
         }
       });
   },

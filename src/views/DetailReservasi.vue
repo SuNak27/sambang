@@ -135,7 +135,7 @@ export default {
       .catch(function (error) {
         if (error.response) {
           localStorage.removeItem("token");
-          this.$router.go();
+          this.$route.push("/login");
         }
       });
   },
