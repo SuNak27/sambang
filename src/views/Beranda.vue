@@ -82,6 +82,16 @@
                 </table>
               </div>
             </div>
+
+            <div class="card card-secondary">
+              <div class="card-header">
+                <h3 class="card-title">Chart</h3>
+              </div>
+
+              <div class="card-body">
+                <Chart :value="reservasi.data" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -91,6 +101,7 @@
 
 <script>
 import Header from "@/components/Header.vue";
+import Chart from "@/components/Chart.vue";
 import axios from "axios";
 import $ from "jquery";
 import toastr from "admin-lte/plugins/toastr/toastr.min";
@@ -100,6 +111,7 @@ export default {
   name: "Beranda",
   components: {
     Header,
+    Chart,
   },
   data() {
     return {

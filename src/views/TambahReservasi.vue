@@ -418,7 +418,7 @@ export default {
       .get("http://localhost:3000/santri")
       .then((response) => (this.santri = response.data))
       .catch(function (error) {
-        if (error.response) {
+        if (error.response.status == 401) {
           localStorage.removeItem("token");
           this.$router.go();
         }
@@ -427,7 +427,7 @@ export default {
       .get("http://localhost:3000/shift")
       .then((response) => (this.shift = response.data))
       .catch(function (error) {
-        if (error.response) {
+        if (error.response.status == 401) {
           localStorage.removeItem("token");
           this.$router.go();
         }
@@ -436,7 +436,7 @@ export default {
       .get("http://localhost:3000/hari")
       .then((response) => (this.hari = response.data))
       .catch(function (error) {
-        if (error.response) {
+        if (error.response.status == 401) {
           localStorage.removeItem("token");
           this.$router.go();
         }
@@ -445,7 +445,7 @@ export default {
       .get("http://localhost:3000/reservasiId")
       .then((response) => (this.reservasiId = response.data))
       .catch(function (error) {
-        if (error.response) {
+        if (error.response.status == 401) {
           localStorage.removeItem("token");
           this.$router.go();
         }
