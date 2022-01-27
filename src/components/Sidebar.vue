@@ -18,11 +18,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image my-auto">
-          <!-- <img
-            :src="require(`${foto}`)"
-            class="img-circle mt-2 elevation-2"
-            alt="User"
-          /> -->
+          <img :src="imgUser" class="img-circle mt-2 elevation-2" alt="User" />
         </div>
         <div class="info">
           <span class="text-white">Selamat Datang,</span>
@@ -139,8 +135,9 @@ export default {
   data() {
     return {
       username: sessionStorage.getItem("user"),
-      // foto: localStorage.getItem("foto"),
       role: sessionStorage.getItem("role"),
+      imgUser:
+        "https://ui-avatars.com/api/?name=" + sessionStorage.getItem("user"),
     };
   },
 };
