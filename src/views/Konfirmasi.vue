@@ -156,7 +156,7 @@ export default {
       .get("http://localhost:3000/santri/id/" + this.$route.params.id)
       .then((response) => (this.konfirmasi = response.data))
       .catch(function (error) {
-        if (error.response) {
+        if (error.response.status == 401) {
           localStorage.removeItem("token");
           this.$router.go();
         }

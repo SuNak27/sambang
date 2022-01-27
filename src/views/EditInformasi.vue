@@ -168,7 +168,7 @@ export default {
       .get("http://localhost:3000/informasi/" + this.$route.params.id)
       .then((response) => (this.informasi = response.data))
       .catch(function (error) {
-        if (error.response) {
+        if (error.response.status == 401) {
           localStorage.removeItem("token");
           this.$router.go();
         }

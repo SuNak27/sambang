@@ -176,7 +176,7 @@ export default {
       .get("http://localhost:3000/shift/" + this.$route.params.id)
       .then((response) => (this.shift = response.data))
       .catch(function (error) {
-        if (error.response) {
+        if (error.response.status == 401) {
           localStorage.removeItem("token");
           this.$router.go();
         }

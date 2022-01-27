@@ -133,9 +133,9 @@ export default {
         });
       })
       .catch(function (error) {
-        if (error.response) {
+        if (error.response.status == 401) {
           localStorage.removeItem("token");
-          this.$route.push("/login");
+          this.$router.go();
         }
       });
   },
