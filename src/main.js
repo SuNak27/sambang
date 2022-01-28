@@ -3,6 +3,17 @@ import App from "./App.vue";
 import router from "./router";
 import Echart from "vue-echarts";
 
+import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
+
+// Import Bootstrap an BootstrapVue CSS files (order is important)
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-vue/dist/bootstrap-vue.css";
+
+// Make BootstrapVue available throughout your project
+Vue.use(BootstrapVue);
+// Optionally install the BootstrapVue icon components plugin
+Vue.use(IconsPlugin);
+
 import "admin-lte/plugins/fontawesome-free/css/all.min.css";
 import "admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css";
 import "admin-lte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css";

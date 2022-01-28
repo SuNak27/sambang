@@ -140,11 +140,22 @@
                   <div class="form-group row">
                     <label for="" class="col-md-4">Tanggal Kunjungan</label>
                     <div class="col-md-8">
-                      <input
+                      <b-form-datepicker
+                        v-model="value"
+                        today-button
+                        reset-button
+                        close-button
+                      ></b-form-datepicker>
+
+                      <div v-if="value">
+                        <Info :value="info()" />
+                      </div>
+
+                      <!-- <input
                         v-model="reservasi.tgl_kunjungan"
                         type="date"
                         class="form-control"
-                      />
+                      /> -->
                     </div>
                   </div>
                   <div class="form-group row">
@@ -284,6 +295,7 @@
 
 <script>
 import Header from "@/components/Header.vue";
+import Info from "@/components/Info.vue";
 import moment from "moment";
 import axios from "axios";
 import $ from "jquery";
@@ -293,6 +305,7 @@ export default {
   name: "TambahReservasi",
   components: {
     Header,
+    Info,
   },
   data() {
     return {
@@ -311,6 +324,8 @@ export default {
       checkedSantri: [],
       checkedWali: [],
       reservasiId: {},
+      value: "",
+      informasi: [],
     };
   },
   methods: {
@@ -412,6 +427,18 @@ export default {
         return false;
       }
     },
+    info() {
+      const date = moment(this.value).format("yyyy-MM-DD");
+      for (let i = 0; i < this.informasi.data.length; i++) {
+        const element = this.informasi.data[i];
+        const from = moment(element.tanggal_mulai).format("yyyy-MM-DD");
+        const to = moment(element.tanggal_akhir).format("yyyy-MM-DD");
+
+        if (date >= from && date <= to) {
+          return element.id;
+        }
+      }
+    },
   },
   mounted() {
     axios
@@ -444,6 +471,15 @@ export default {
     axios
       .get("http://localhost:3000/reservasiId")
       .then((response) => (this.reservasiId = response.data))
+      .catch(function (error) {
+        if (error.response.status == 401) {
+          localStorage.removeItem("token");
+          this.$router.go();
+        }
+      });
+    axios
+      .get("http://localhost:3000/informasi")
+      .then((response) => (this.informasi = response.data))
       .catch(function (error) {
         if (error.response.status == 401) {
           localStorage.removeItem("token");
