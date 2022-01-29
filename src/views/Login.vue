@@ -96,13 +96,19 @@ export default {
             password: this.password,
           })
           .then((response) => {
-            localStorage.setItem("token", JSON.stringify(response.data.token));
-            localStorage.setItem("user", JSON.stringify(response.data.role));
-            sessionStorage.setItem("role", response.data.role);
-            sessionStorage.setItem("user", response.data.nama);
+            if (response.status === 200) {
+              localStorage.setItem(
+                "token",
+                JSON.stringify(response.data.token)
+              );
+              localStorage.setItem("user", JSON.stringify(response.data.role));
+              sessionStorage.setItem("role", response.data.role);
+              sessionStorage.setItem("user", response.data.nama);
 
-            this.$router.go();
-            toastr.success("Berhasil");
+              this.$router.go();
+              // this.$router.push({ name: "Beranda" });
+              toastr.success("Berhasil");
+            }
           })
           .catch((err) => {
             toastr.error(err.response.data.message);

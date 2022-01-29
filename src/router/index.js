@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Login from "../components/layouts/Login.vue";
+import Login from "../views/Login.vue";
 import Dashboard from "../components/layouts/Dashboard.vue";
 import Print from "../components/layouts/Print.vue";
 import Beranda from "../views/Beranda.vue";
@@ -26,7 +26,7 @@ axios.defaults.headers.common["X-Sambang-Token"] = JSON.parse(
   localStorage.getItem("token")
 );
 
-axios.defaults.baseURL = "https://api.sambang.belanj.id";
+axios.defaults.baseURL = "http://localhost:3000";
 
 Vue.use(VueRouter);
 const routes = [
@@ -190,6 +190,8 @@ router.beforeEach((to, from, next) => {
       } else {
         next({ path: "/" });
       }
+    } else {
+      next();
     }
     next();
   }

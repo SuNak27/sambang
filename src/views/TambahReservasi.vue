@@ -334,7 +334,7 @@ export default {
   methods: {
     search() {
       axios
-        .get("http://localhost:3000/wali/" + this.nik)
+        .get("/wali/" + this.nik)
         .then((response) => {
           this.dataWali = response.data.data[0];
           this.wali = response.data;
@@ -345,7 +345,7 @@ export default {
           }
         });
       axios
-        .get("http://localhost:3000/santri/" + this.nik)
+        .get("/santri/" + this.nik)
         .then((response) => {
           this.mahromSantri = response.data.data[0].no_mahrom;
           this.santri = response.data;
@@ -358,7 +358,7 @@ export default {
     },
     filterHari(event) {
       axios
-        .get("http://localhost:3000/hari/shift/" + event.target.value)
+        .get("/hari/shift/" + event.target.value)
         .then((response) => {
           this.hari = response.data;
         })
@@ -366,7 +366,7 @@ export default {
           console.log(error);
         });
       axios
-        .get("http://localhost:3000/shift/" + event.target.value)
+        .get("/shift/" + event.target.value)
         .then((response) => {
           this.checkShift = response.data;
         })
@@ -376,7 +376,7 @@ export default {
     },
     checkStatus(event) {
       axios
-        .get("http://localhost:3000/hari/" + event.target.value)
+        .get("/hari/" + event.target.value)
         .then((response) => {
           this.check = response.data;
           this.status = response.data.data.status_hari;
@@ -425,7 +425,7 @@ export default {
           this.moreWali.length != 0
         ) {
           axios
-            .post("http://localhost:3000/reservasi", this.reservasi)
+            .post("/reservasi", this.reservasi)
             .then()
             .catch((err) => console.log("Gagal", err));
 
@@ -443,7 +443,7 @@ export default {
                 this.reservasiId.result.id + 1;
             }
             axios
-              .post("http://localhost:3000/reservasi_wali", this.reservasi_wali)
+              .post("/reservasi_wali", this.reservasi_wali)
               .then()
               .catch((err) => console.log("Gagal", err));
           }
@@ -452,10 +452,7 @@ export default {
             var s = this.checkedSantri[index].id;
             this.reservasi_santri.id_santri = s;
             axios
-              .post(
-                "http://localhost:3000/reservasi_santri",
-                this.reservasi_santri
-              )
+              .post("/reservasi_santri", this.reservasi_santri)
               .then(toastr.success("Data telah ditambah"))
               .catch((err) => console.log("Gagal", err));
           }
@@ -470,7 +467,7 @@ export default {
   },
   mounted() {
     axios
-      .get("http://localhost:3000/shift")
+      .get("/shift")
       .then((response) => (this.shift = response.data))
       .catch(function (error) {
         if (error.response.status == 401) {
@@ -480,7 +477,7 @@ export default {
       });
 
     axios
-      .get("http://localhost:3000/informasi")
+      .get("/informasi")
       .then((response) => (this.informasi = response.data))
       .catch(function (error) {
         if (error.response.status == 401) {
@@ -490,7 +487,7 @@ export default {
       });
 
     axios
-      .get("http://localhost:3000/reservasiId")
+      .get("/reservasiId")
       .then((response) => (this.reservasiId = response.data))
       .catch(function (error) {
         if (error.response.status == 401) {
