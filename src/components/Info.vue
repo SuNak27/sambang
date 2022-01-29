@@ -54,7 +54,7 @@ export default {
       handler: function (value) {
         this.info = value;
         axios
-          .get("http://localhost:3000/informasi/" + this.info)
+          .get("/informasi/" + this.info)
           .then((r) => {
             this.informasi = r.data;
           })
@@ -69,7 +69,7 @@ export default {
   },
   mounted() {
     axios
-      .get("http://localhost:3000/informasi/" + this.info)
+      .get("/informasi/" + this.info)
       .then((r) => {
         this.informasi = r.data;
       })

@@ -91,7 +91,7 @@ export default {
     simpan() {
       if (this.username != "" && this.password != "") {
         axios
-          .post("http://localhost:3000/login", {
+          .post("/login", {
             username: this.username,
             password: this.password,
           })

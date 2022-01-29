@@ -82,9 +82,7 @@ export default {
   },
   mounted() {
     axios
-      .get(
-        "http://localhost:3000/reservasi/tanggal/" + this.$route.params.tanggal
-      )
+      .get("/reservasi/tanggal/" + this.$route.params.tanggal)
       .then((response) => {
         this.reservasi = response.data;
         $(function () {
