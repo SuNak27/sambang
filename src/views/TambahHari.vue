@@ -76,7 +76,7 @@
                           class="custom-control-input"
                         />
                         <label class="custom-control-label" for="santri"
-                          >Santri</label
+                          >Santri Putra</label
                         >
                       </div>
                       <div
@@ -93,7 +93,7 @@
                           class="custom-control-input"
                         />
                         <label class="custom-control-label" for="santriwati"
-                          >Santriwati</label
+                          >Santri Putri</label
                         >
                       </div>
                     </div>
@@ -197,7 +197,7 @@ export default {
             $(function () {
               toastr.success("Data telah ditambah");
             }),
-            this.$router.push({ path: "/settingHari" })
+            this.$router.push({ path: "settingHari" })
           )
           .catch((error) => console.log(error));
       } else {

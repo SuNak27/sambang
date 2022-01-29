@@ -70,6 +70,8 @@ Vue.component("v-chart", ECharts);
 
 Vue.component("chart", Echart);
 
+Vue.config.productionTip = false;
+
 new Vue({
   router,
   render: (h) => h(App),

@@ -104,5 +104,18 @@ export default {
       }
     },
   },
+  mounted() {
+    axios
+      .get("http://localhost:3000/pertemuan/1")
+      .then((r) => {
+        this.pertemuan = r.data.data;
+      })
+      .catch(function (error) {
+        if (error.response.status == 401) {
+          localStorage.removeItem("token");
+          this.$router.go();
+        }
+      });
+  },
 };
 </script>

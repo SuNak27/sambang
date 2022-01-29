@@ -52,7 +52,7 @@ const routes = [
       },
       {
         path: "settingHari",
-        name: "SettingHari",
+        name: "Setting Hari",
         component: SettingHari,
         meta: {
           is_admin: true,
@@ -60,7 +60,7 @@ const routes = [
       },
       {
         path: "tambah_hari",
-        name: "TambahHari",
+        name: "Tambah Hari",
         component: TambahHari,
         meta: {
           is_admin: true,
@@ -68,7 +68,7 @@ const routes = [
       },
       {
         path: "edit_hari/:id",
-        name: "EditHari",
+        name: "Edit Data Hari",
         component: EditHari,
         meta: {
           is_admin: true,
@@ -84,7 +84,7 @@ const routes = [
       },
       {
         path: "tambah_shift",
-        name: "TambahShift",
+        name: "Tambah Shift",
         component: TambahShift,
         meta: {
           is_admin: true,
@@ -92,7 +92,7 @@ const routes = [
       },
       {
         path: "edit_shift/:id",
-        name: "EditShift",
+        name: "Edit Shift",
         component: EditShift,
         meta: {
           is_admin: true,
@@ -113,12 +113,12 @@ const routes = [
       },
       {
         path: "tambah_reservasi",
-        name: "TambahReservasi",
+        name: "Tambah Reservasi",
         component: TambahReservasi,
       },
       {
         path: "reservasi/:id",
-        name: "DetailReservasi",
+        name: "Detail Reservasi",
         component: DetailReservasi,
       },
       {
@@ -141,7 +141,7 @@ const routes = [
       },
       {
         path: "informasi",
-        name: "Informasi",
+        name: "Pusat Informasi",
         component: Informasi,
         meta: {
           is_admin: true,
@@ -149,7 +149,7 @@ const routes = [
       },
       {
         path: "tambahInformasi",
-        name: "TambahInformasi",
+        name: "Tambah Informasi",
         component: TambahInformasi,
         meta: {
           is_admin: true,
@@ -157,7 +157,7 @@ const routes = [
       },
       {
         path: "editInformasi/:id",
-        name: "EditInformasi",
+        name: "Edit Informasi",
         component: EditInformasi,
         meta: {
           is_admin: true,
@@ -176,6 +176,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   const status = JSON.parse(localStorage.getItem("token"));
   const user = JSON.parse(localStorage.getItem("user"));
+  document.title = `${process.env.VUE_APP_TITLE} - ${to.name}`;
   if (to.name !== "Login" && status == null) {
     next({ name: "Login" });
   } else if (to.name === "Login" && status) {

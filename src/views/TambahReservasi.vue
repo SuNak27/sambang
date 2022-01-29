@@ -150,12 +150,6 @@
                       <div v-if="value">
                         <Info :value="info()" />
                       </div>
-
-                      <!-- <input
-                        v-model="reservasi.tgl_kunjungan"
-                        type="date"
-                        class="form-control"
-                      /> -->
                     </div>
                   </div>
                   <div class="form-group row">
@@ -348,11 +342,8 @@ export default {
       this.reservasi.jam_mula = "";
       this.reservasi.jam_final = "";
       this.reservasi.hadir = false;
-      if (
-        this.reservasi.id_hari != null &&
-        this.reservasi.id_shift != null &&
-        this.reservasi.tgl_kunjungan != null
-      ) {
+      this.reservasi.tgl_kunjungan = this.value;
+      if (this.reservasi.id_hari != null && this.reservasi.id_shift != null) {
         if (this.disabledSantri == "Sama" && this.moreWali != "Lebih") {
           axios
             .post("http://localhost:3000/reservasi", this.reservasi)

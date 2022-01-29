@@ -31,7 +31,7 @@
                     <label for="" class="col-md-4">Jam Awal</label>
                     <div class="col-md-8">
                       <input
-                        type="text"
+                        type="time"
                         class="form-control"
                         name="jam_awal"
                         id="jam_awal"
@@ -43,7 +43,7 @@
                     <label for="" class="col-md-4">Jam Akhir</label>
                     <div class="col-md-8">
                       <input
-                        type="text"
+                        type="time"
                         class="form-control"
                         name="jam_akhir"
                         id="jam_akhir"
