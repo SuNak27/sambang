@@ -129,7 +129,7 @@ export default {
         .add(this.pertemuan.data[0].waktu, "minutes")
         .format("X");
       axios
-        .put("http://localhost:3000/reservasi/" + id, this.reservasi.data[no])
+        .put("/reservasi/" + id, this.reservasi.data[no])
         .then(
           $(function () {
             toastr.success("Hadir");
@@ -146,7 +146,7 @@ export default {
   },
   mounted() {
     axios
-      .get("http://localhost:3000/reservasi")
+      .get("/reservasi")
       .then((r) => {
         this.reservasi = r.data;
         $(function () {
@@ -168,7 +168,7 @@ export default {
       });
 
     axios
-      .get("http://localhost:3000/pertemuan")
+      .get("/pertemuan")
       .then((response) => {
         this.pertemuan = response.data;
       })

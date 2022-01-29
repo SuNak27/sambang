@@ -100,21 +100,21 @@ export default {
     clickAktif(no, id) {
       this.setHari.data[no].status = "Aktif";
       axios
-        .patch("http://localhost:3000/hari/" + id, this.setHari.data[no])
+        .patch("/hari/" + id, this.setHari.data[no])
         .then()
         .catch((error) => console.log(error));
     },
     clickNonaktif(no, id) {
       this.setHari.data[no].status = "Nonaktif";
       axios
-        .patch("http://localhost:3000/hari/" + id, this.setHari.data[no])
+        .patch("/hari/" + id, this.setHari.data[no])
         .then()
         .catch((error) => console.log(error));
     },
   },
   mounted() {
     axios
-      .get("http://localhost:3000/hari")
+      .get("/hari")
       .then((r) => {
         this.setHari = r.data;
         $(function () {

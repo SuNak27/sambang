@@ -74,7 +74,7 @@ export default {
   },
   mounted() {
     axios
-      .get("http://localhost:3000/reservasi")
+      .get("/reservasi")
       .then((r) => {
         this.reservasi = r.data;
         $(function () {

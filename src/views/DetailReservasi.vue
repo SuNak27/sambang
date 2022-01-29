@@ -111,7 +111,7 @@ export default {
   },
   mounted() {
     axios
-      .get("http://localhost:3000/reservasi/" + this.$route.params.id)
+      .get("/reservasi/" + this.$route.params.id)
       .then((r) => {
         this.reservasi_santri = r.data.data.reservasi_santris;
         this.reservasi_wali = r.data.data.reservasi_walis;

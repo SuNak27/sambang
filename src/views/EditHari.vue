@@ -202,10 +202,7 @@ export default {
       ) {
         this.hari.kapasitas = this.kapasitas;
         axios
-          .put(
-            "http://localhost:3000/hari/" + this.hari.data.id,
-            this.hari.data
-          )
+          .put("/hari/" + this.hari.data.id, this.hari.data)
           .then(
             $(function () {
               toastr.success("Data telah diperbarui");
@@ -222,7 +219,7 @@ export default {
   },
   mounted() {
     axios
-      .get("http://localhost:3000/hari/" + this.$route.params.id)
+      .get("/hari/" + this.$route.params.id)
       .then((response) => (this.hari = response.data))
       .catch(function (error) {
         if (error.response.status == 401) {
@@ -232,7 +229,7 @@ export default {
       });
 
     axios
-      .get("http://localhost:3000/shift")
+      .get("/shift")
       .then((response) => (this.shift = response.data))
       .catch(function (error) {
         if (error.response.status == 401) {
@@ -242,7 +239,7 @@ export default {
       });
 
     axios
-      .get("http://localhost:3000/wilayah")
+      .get("/wilayah")
       .then((response) => (this.wilayah = response.data))
       .catch(function (error) {
         if (error.response.status == 401) {

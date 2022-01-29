@@ -145,10 +145,7 @@ export default {
         this.informasi.data.status != null
       ) {
         axios
-          .put(
-            "http://localhost:3000/informasi/" + this.informasi.data.id,
-            this.informasi.data
-          )
+          .put("/informasi/" + this.informasi.data.id, this.informasi.data)
           .then(
             $(function () {
               toastr.success("Data telah diubah");
@@ -165,7 +162,7 @@ export default {
   },
   mounted() {
     axios
-      .get("http://localhost:3000/informasi/" + this.$route.params.id)
+      .get("/informasi/" + this.$route.params.id)
       .then((response) => (this.informasi = response.data))
       .catch(function (error) {
         if (error.response.status == 401) {

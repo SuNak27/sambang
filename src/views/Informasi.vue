@@ -95,21 +95,21 @@ export default {
     clickBuka(no, id) {
       this.informasi.data[no].status = "Buka";
       axios
-        .put("http://localhost:3000/informasi/" + id, this.informasi.data[no])
+        .put("/informasi/" + id, this.informasi.data[no])
         .then()
         .catch((error) => console.log(error));
     },
     clickTutup(no, id) {
       this.informasi.data[no].status = "Tutup";
       axios
-        .put("http://localhost:3000/informasi/" + id, this.informasi.data[no])
+        .put("/informasi/" + id, this.informasi.data[no])
         .then()
         .catch((error) => console.log(error));
     },
   },
   mounted() {
     axios
-      .get("http://localhost:3000/informasi")
+      .get("/informasi")
       .then((r) => {
         this.informasi = r.data;
         $(function () {

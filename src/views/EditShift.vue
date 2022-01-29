@@ -153,10 +153,7 @@ export default {
         this.shift.data.status != null
       ) {
         axios
-          .put(
-            "http://localhost:3000/shift/" + this.shift.data.id,
-            this.shift.data
-          )
+          .put("/shift/" + this.shift.data.id, this.shift.data)
           .then(
             $(function () {
               toastr.success("Data telah diperbarui");
@@ -173,7 +170,7 @@ export default {
   },
   mounted() {
     axios
-      .get("http://localhost:3000/shift/" + this.$route.params.id)
+      .get("/shift/" + this.$route.params.id)
       .then((response) => (this.shift = response.data))
       .catch(function (error) {
         if (error.response.status == 401) {

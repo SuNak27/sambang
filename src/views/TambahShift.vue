@@ -153,7 +153,7 @@ export default {
         this.shift.status != null
       ) {
         axios
-          .post("http://localhost:3000/shift", this.shift)
+          .post("/shift", this.shift)
           .then(
             $(function () {
               toastr.success("Data berhasil ditambah");

@@ -96,7 +96,7 @@ export default {
         this.pertemuan.waktu != null
       ) {
         axios
-          .put("http://localhost:3000/pertemuan/1", this.pertemuan)
+          .put("/pertemuan/1", this.pertemuan)
           .then(this.$router.push({ path: "/" }))
           .catch((err) => console.log(err));
       } else {
@@ -106,7 +106,7 @@ export default {
   },
   mounted() {
     axios
-      .get("http://localhost:3000/pertemuan/1")
+      .get("/pertemuan/1")
       .then((r) => {
         this.pertemuan = r.data.data;
       })

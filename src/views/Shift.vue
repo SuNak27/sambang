@@ -100,21 +100,21 @@ export default {
     clickAktif(no, id) {
       this.setShift.data[no].status = "Aktif";
       axios
-        .patch("http://localhost:3000/shift/" + id, this.setShift.data[no])
+        .patch("/shift/" + id, this.setShift.data[no])
         .then()
         .catch((error) => console.log(error));
     },
     clickNonaktif(no, id) {
       this.setShift.data[no].status = "Nonaktif";
       axios
-        .patch("http://localhost:3000/shift/" + id, this.setShift.data[no])
+        .patch("/shift/" + id, this.setShift.data[no])
         .then()
         .catch((error) => console.log(error));
     },
   },
   mounted() {
     axios
-      .get("http://localhost:3000/shift")
+      .get("/shift")
       .then((r) => {
         this.setShift = r.data;
         $(function () {

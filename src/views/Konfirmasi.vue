@@ -140,10 +140,7 @@ export default {
         this.konfirmasi.data.keterangan != null
       ) {
         axios
-          .put(
-            "http://localhost:3000/santri/id/" + this.konfirmasi.data.id,
-            this.konfirmasi.data
-          )
+          .put("/santri/id/" + this.konfirmasi.data.id, this.konfirmasi.data)
           .then(this.$router.push({ path: "/reservasi" }))
           .catch((err) => console.log(err));
       } else {
@@ -153,7 +150,7 @@ export default {
   },
   mounted() {
     axios
-      .get("http://localhost:3000/santri/id/" + this.$route.params.id)
+      .get("/santri/id/" + this.$route.params.id)
       .then((response) => (this.konfirmasi = response.data))
       .catch(function (error) {
         if (error.response.status == 401) {

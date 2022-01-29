@@ -192,7 +192,7 @@ export default {
       ) {
         this.hari.kapasitas = this.kapasitas;
         axios
-          .post("http://localhost:3000/hari", this.hari)
+          .post("/hari", this.hari)
           .then(
             $(function () {
               toastr.success("Data telah ditambah");
@@ -209,7 +209,7 @@ export default {
   },
   mounted() {
     axios
-      .get("http://localhost:3000/shift")
+      .get("/shift")
       .then((response) => (this.shift = response.data))
       .catch(function (error) {
         if (error.response.status == 401) {
@@ -219,7 +219,7 @@ export default {
       });
 
     axios
-      .get("http://localhost:3000/wilayah")
+      .get("/wilayah")
       .then((response) => (this.wilayah = response.data))
       .catch(function (error) {
         if (error.response.status == 401) {

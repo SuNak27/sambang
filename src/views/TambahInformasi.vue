@@ -145,7 +145,7 @@ export default {
         this.informasi.status != null
       ) {
         axios
-          .post("http://localhost:3000/informasi", this.informasi)
+          .post("/informasi", this.informasi)
           .then(
             $(function () {
               toastr.success("Data telah ditambah");
