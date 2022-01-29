@@ -16,7 +16,7 @@
               <form action="" class="form-horizontal" v-on:submit.prevent>
                 <div class="card-body">
                   <div class="form-group row">
-                    <label for="" class="col-md-4">No Mahrom</label>
+                    <label for="" class="col-md-4">NIK Mahrom</label>
                     <div class="col-md-8">
                       <input
                         v-model="nik"
@@ -36,7 +36,7 @@
                         type="text"
                         name=""
                         id=""
-                        v-if="nik == '' || dataWali.no_mahrom != nik"
+                        v-if="nik == '' || wali.data[0].no_mahrom != nik"
                         class="form-control"
                       />
                       <input
@@ -45,7 +45,7 @@
                         id="nama"
                         readonly
                         class="form-control"
-                        v-model="dataWali.nama_wali"
+                        v-model="wali.data[0].nama_wali"
                         v-else
                       />
                     </div>
@@ -56,7 +56,7 @@
                       <div class="row">
                         <div class="col-sm-4">
                           <select
-                            @change="filterHari"
+                            @change="onChange"
                             v-model="reservasi.id_shift"
                             class="custom-select"
                           >
@@ -109,22 +109,23 @@
                     <label for="" class="col-md-4">Hari Kunjungan</label>
                     <div class="col-md-8">
                       <select
+                        @change="statusSantri"
                         v-model="reservasi.nama_hari"
                         class="custom-select"
                         v-if="reservasi.id_shift == null"
                       >
                         <option disabled selected value="">
-                          -- Pilih Shift Terlebih Dahulu --
+                          -- Pilih Hari --
                         </option>
                       </select>
                       <select
-                        @change="checkStatus"
+                        @change="statusSantri"
                         v-model="reservasi.id_hari"
                         class="custom-select"
                         v-else
                       >
                         <option disabled selected value="">
-                          -- Pilih Hari Yang Tersedia --
+                          -- Pilih Hari --
                         </option>
                         <option
                           v-for="day in hari.data"
@@ -140,13 +141,13 @@
                     <label for="" class="col-md-4">Tanggal Kunjungan</label>
                     <div class="col-md-8">
                       <b-form-datepicker
-                        v-model="reservasi.tgl_kunjungan"
-                        :min="min"
+                        v-model="value"
+                        today-button
                         reset-button
                         close-button
                       ></b-form-datepicker>
 
-                      <div v-if="reservasi.tgl_kunjungan">
+                      <div v-if="value">
                         <Info :value="info()" />
                       </div>
                     </div>
@@ -163,7 +164,9 @@
                           <th>Aksi</th>
                         </thead>
                         <tbody>
-                          <tr v-if="nik == '' || mahromSantri != nik">
+                          <tr
+                            v-if="nik == '' || santri.data[0].no_mahrom != nik"
+                          >
                             <td colspan="5" class="text-center">
                               <div class="badge badge-danger">
                                 Silahkan Masukkan NIK Mahrom
@@ -199,10 +202,10 @@
                           <tr v-if="disabledSantri == 'Tidak Sama'">
                             <td colspan="5" class="text-center">
                               <div class="btn btn-danger btn-block">
-                                Hari {{ check.data.nama_hari }}
-                                {{ check.data.shift.nama_shift }} Khusus
+                                Hari {{ check.data[0].nama_hari }}
+                                {{ check.data[0].shift.nama_shift }} Khusus
                                 {{
-                                  check.data.status_hari == "Santri"
+                                  check.data[0].status_hari == "Santri"
                                     ? "Santri Putra"
                                     : "Santri Putri"
                                 }}
@@ -225,7 +228,7 @@
                           <th>Aksi</th>
                         </thead>
                         <tbody>
-                          <tr v-if="nik == '' || dataWali.no_mahrom != nik">
+                          <tr v-if="nik == '' || wali.data[0].no_mahrom != nik">
                             <td colspan="5" class="text-center">
                               <div class="badge badge-danger">
                                 Silahkan Masukkan NIK Mahrom
@@ -291,8 +294,9 @@
 <script>
 import Header from "@/components/Header.vue";
 import Info from "@/components/Info.vue";
-import axios from "axios";
 import moment from "moment";
+import axios from "axios";
+import $ from "jquery";
 import toastr from "admin-lte/plugins/toastr/toastr.min";
 
 export default {
@@ -302,133 +306,49 @@ export default {
     Info,
   },
   data() {
-    const now = new Date();
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    // 15th two months prior
-    const minDate = new Date(today);
-    minDate.setDate(minDate.getDate() + 1);
-    // 15th in two months
-    const maxDate = new Date(today);
-    maxDate.setMonth(maxDate.getMonth() + 2);
-    maxDate.setDate(15);
     return {
-      min: minDate,
+      santri: [],
+      wali: [],
+      shift: [],
+      checkShift: {},
+      hari: [],
       nik: "",
-      dataWali: {},
-      reservasi: {
-        tgl_reservasi: moment().format("yyyy-MM-DD"),
-      },
-      reservasiId: {},
+      reservasi: {},
       reservasi_wali: {},
       reservasi_santri: {},
-      shift: [],
-      hari: [],
-      checkShift: {},
+      tgl_reservasi: moment().format("yyyy-MM-DD"),
       check: {},
-      informasi: [],
       status: "",
       checkedSantri: [],
-      status_santri: "",
-      santri: [],
-      mahromSantri: "",
       checkedWali: [],
-      wali: [],
-      liburSambang: false,
+      reservasiId: {},
+      value: "",
+      informasi: [],
     };
   },
   methods: {
+    setSantri(data) {
+      this.santri = data;
+    },
     search() {
       axios
-        .get("http://localhost:3000/wali/" + this.nik)
-        .then((response) => {
-          this.dataWali = response.data.data[0];
-          this.wali = response.data;
-        })
-        .catch((error) => {
-          if (error.response.status === 400) {
-            this.dataWali = "";
-          }
-        });
-      axios
         .get("http://localhost:3000/santri/" + this.nik)
-        .then((response) => {
-          this.mahromSantri = response.data.data[0].no_mahrom;
-          this.santri = response.data;
-        })
-        .catch((error) => {
-          if (error.response.status === 400) {
-            this.santri = "";
-          }
-        });
-    },
-    filterHari(event) {
+        .then((response) => (this.santri = response.data))
+        .catch((error) => console.log(error));
       axios
-        .get("http://localhost:3000/hari/shift/" + event.target.value)
-        .then((response) => {
-          this.hari = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      axios
-        .get("http://localhost:3000/shift/" + event.target.value)
-        .then((response) => {
-          this.checkShift = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    checkStatus(event) {
-      axios
-        .get("http://localhost:3000/hari/" + event.target.value)
-        .then((response) => {
-          this.check = response.data;
-          this.status = response.data.data.status_hari;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    info() {
-      const date = moment(this.reservasi.tgl_kunjungan).format("yyyy-MM-DD");
-      for (let i = 0; i < this.informasi.data.length; i++) {
-        const element = this.informasi.data[i];
-        const from = moment(element.tanggal_mulai).format("yyyy-MM-DD");
-        const to = moment(element.tanggal_akhir).format("yyyy-MM-DD");
-
-        if (date >= from && date <= to) {
-          this.liburSambang = true;
-          return element.id;
-        } else {
-          this.liburSambang = false;
-        }
-      }
-    },
-    pilihSantri() {
-      if (this.checkedSantri.length >= 1) {
-        this.status_santri = this.checkedSantri[0].status;
-      } else {
-        this.status_santri = "";
-      }
+        .get("http://localhost:3000/wali/" + this.nik)
+        .then((response) => (this.wali = response.data))
+        .catch((error) => console.log(error));
     },
     simpan() {
       this.reservasi.no_mahrom = this.nik;
+      this.reservasi.tgl_reservasi = this.tgl_reservasi;
       this.reservasi.jam_mula = "";
       this.reservasi.jam_final = "";
-      this.reservasi.hadir = "";
-      if (
-        this.reservasi.id_hari != null &&
-        this.reservasi.id_shift != null &&
-        this.liburSambang == false &&
-        this.reservasi.tgl_kunjungan != null
-      ) {
-        if (
-          this.disabledSantri == "Sama" &&
-          this.status_santri != "" &&
-          this.moreWali != "Lebih" &&
-          this.moreWali.length != 0
-        ) {
+      this.reservasi.hadir = false;
+      this.reservasi.tgl_kunjungan = this.value;
+      if (this.reservasi.id_hari != null && this.reservasi.id_shift != null) {
+        if (this.disabledSantri == "Sama" && this.moreWali != "Lebih") {
           axios
             .post("http://localhost:3000/reservasi", this.reservasi)
             .then()
@@ -461,19 +381,76 @@ export default {
                 "http://localhost:3000/reservasi_santri",
                 this.reservasi_santri
               )
-              .then(toastr.success("Data telah ditambah"))
+              .then(
+                $(function () {
+                  toastr.success("Data telah ditambah");
+                }),
+                this.$router.push({ path: "/reservasi" })
+              )
               .catch((err) => console.log("Gagal", err));
           }
-          this.$router.push({ path: "reservasi" });
-        } else {
-          console.log("Wali harus diisi dam bukan harinya");
         }
       } else {
-        console.log("Ada data kosong");
+        $(function () {
+          toastr.error("Tidak boleh ada data kosong!");
+        });
       }
+    },
+    onChange(event) {
+      axios
+        .get("http://localhost:3000/hari/shift/" + event.target.value)
+        .then((response) => (this.hari = response.data))
+        .catch((this.hari = { data: "" }));
+
+      axios
+        .get("http://localhost:3000/shift/" + event.target.value)
+        .then((response) => (this.checkShift = response.data))
+        .catch((err) => console.log("Gagal", err));
+    },
+    statusSantri(event) {
+      axios
+        .get("http://localhost:3000/hari/shift/" + event.target.value)
+        .then((response) => (this.check = response.data))
+        .catch((err) => console.log("Gagal", err));
+    },
+    pilihSantri() {
+      this.status = this.check.data[0].status_hari;
+      if (this.status == this.checkedSantri[0].status) {
+        (response) => (this.status = response.data);
+      } else {
+        (err) => console.log("Error : ", err);
+        return false;
+      }
+    },
+    info() {
+      const date = moment(this.value).format("yyyy-MM-DD");
+      for (let i = 0; i < this.informasi.data.length; i++) {
+        const element = this.informasi.data[i];
+        const from = moment(element.tanggal_mulai).format("yyyy-MM-DD");
+        const to = moment(element.tanggal_akhir).format("yyyy-MM-DD");
+
+        if (date >= from && date <= to) {
+          return element.id;
+        }
+      }
+    },
+    mahrom(index) {
+      return this.wali.data[index].no_mahrom;
+    },
+    waliR() {
+      return this.wali.data[0].nama_wali;
     },
   },
   mounted() {
+    axios
+      .get("http://localhost:3000/santri")
+      .then((response) => (this.santri = response.data))
+      .catch(function (error) {
+        if (error.response.status == 401) {
+          localStorage.removeItem("token");
+          this.$router.go();
+        }
+      });
     axios
       .get("http://localhost:3000/shift")
       .then((response) => (this.shift = response.data))
@@ -483,17 +460,15 @@ export default {
           this.$router.go();
         }
       });
-
     axios
-      .get("http://localhost:3000/informasi")
-      .then((response) => (this.informasi = response.data))
+      .get("http://localhost:3000/hari")
+      .then((response) => (this.hari = response.data))
       .catch(function (error) {
         if (error.response.status == 401) {
           localStorage.removeItem("token");
           this.$router.go();
         }
       });
-
     axios
       .get("http://localhost:3000/reservasiId")
       .then((response) => (this.reservasiId = response.data))
@@ -503,14 +478,33 @@ export default {
           this.$router.go();
         }
       });
+    axios
+      .get("http://localhost:3000/informasi")
+      .then((response) => (this.informasi = response.data))
+      .catch(function (error) {
+        if (error.response.status == 401) {
+          localStorage.removeItem("token");
+          this.$router.go();
+        }
+      });
   },
   computed: {
     disabledSantri() {
-      if (this.status != this.status_santri && this.status_santri != "") {
-        return "Tidak Sama";
-      } else {
-        return "Sama";
+      let statusHari = this.status;
+      if (statusHari != "") {
+        let statusSantri = this.checkedSantri;
+        let statusSantriKosong = [];
+        if (statusSantri != statusSantriKosong) {
+          if (statusSantri[0].status != statusHari) {
+            statusSantri = "Tidak Sama";
+            return statusSantri;
+          } else {
+            statusSantri = "Sama";
+            return statusSantri;
+          }
+        }
       }
+      return statusHari;
     },
     moreWali() {
       let statusWali = this.checkedWali;

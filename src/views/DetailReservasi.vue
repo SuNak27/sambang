@@ -28,7 +28,7 @@
                   </thead>
                   <tbody>
                     <tr
-                      v-for="(sambang, no) in reservasi.data.reservasi_santris"
+                      v-for="(sambang, no) in reservasi_santri"
                       :key="sambang.id"
                     >
                       <td class="text-center">{{ ++no }}</td>
@@ -68,7 +68,7 @@
                   </thead>
                   <tbody>
                     <tr
-                      v-for="(sambang, no) in reservasi.data.reservasi_walis"
+                      v-for="(sambang, no) in reservasi_wali"
                       :key="sambang.id"
                     >
                       <td class="text-center">{{ ++no }}</td>
@@ -100,7 +100,8 @@ export default {
   data() {
     return {
       no: 1,
-      reservasi: {},
+      reservasi_santri: [],
+      reservasi_wali: [],
     };
   },
   methods: {
@@ -112,7 +113,8 @@ export default {
     axios
       .get("http://localhost:3000/reservasi/" + this.$route.params.id)
       .then((r) => {
-        this.reservasi = r.data;
+        this.reservasi_santri = r.data.data.reservasi_santris;
+        this.reservasi_wali = r.data.data.reservasi_walis;
         $(function () {
           $("#detailSantri")
             .DataTable({

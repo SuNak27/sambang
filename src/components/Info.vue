@@ -1,6 +1,6 @@
 <template>
   <div class="" v-if="info">
-    <div class="card card-danger mt-3">
+    <div class="card card-danger mt-3" v-if="informasi.data">
       <h5 class="card-header">Sambang Ditutup</h5>
       <div class="card-body">
         <h5 class="card-title">
@@ -9,11 +9,20 @@
         <p class="card-text">
           {{ informasi.data.detail_informasi }}
         </p>
+        <p>
+          Tanggal Dimulai :
+          <strong class="text-danger">{{ informasi.data.tanggal_mulai }}</strong
+          ><br />
+          Tanggal Berakhir :
+          <strong class="text-danger">{{
+            informasi.data.tanggal_akhir
+          }}</strong>
+        </p>
+        <p></p>
       </div>
       <div class="card-footer">
-        <strong class="text-danger">{{ informasi.data.tanggal_mulai }}</strong>
-        s/d
-        <strong class="text-danger">{{ informasi.data.tanggal_akhir }}</strong>
+        Dibuka pada tanggal
+        <strong class="text-success">{{ buka() }}</strong>
       </div>
     </div>
   </div>
@@ -21,6 +30,7 @@
 
 <script>
 import axios from "axios";
+import moment from "moment";
 export default {
   name: "info",
   props: {
@@ -31,6 +41,13 @@ export default {
       info: "",
       informasi: {},
     };
+  },
+  methods: {
+    buka() {
+      return moment(this.informasi.data.tanggal_akhir)
+        .add(1, "days")
+        .format("yyyy-MM-DD");
+    },
   },
   watch: {
     value: {

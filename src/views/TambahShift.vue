@@ -154,7 +154,12 @@ export default {
       ) {
         axios
           .post("http://localhost:3000/shift", this.shift)
-          .then(this.$router.push({ path: "/shift" }))
+          .then(
+            $(function () {
+              toastr.success("Data berhasil ditambah");
+            }),
+            this.$router.push({ path: "/shift" })
+          )
           .catch((err) => console.log(err));
       } else {
         $(function () {

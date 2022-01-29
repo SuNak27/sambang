@@ -16,14 +16,6 @@
                   >Tambah Reservasi Sambang</router-link
                 >
               </div>
-              <!-- <div class="card-header" v-else>
-                <h3 class="card-title mt-2 text-white">
-                  <b>Tabel Data Reservasi Sambang</b>
-                </h3>
-                <button class="btn btn-success float-right" disabled>
-                  Tambah Reservasi
-                </button>
-              </div> -->
 
               <div class="card-body">
                 <table
@@ -72,60 +64,6 @@
                 </table>
               </div>
             </div>
-            <!-- <div class="card card-secondary" v-else>
-              <div class="card-header">
-                <h3 class="card-title mt-2 text-white">
-                  <b>Tabel Data Reservasi Sambang</b>
-                </h3>
-              </div>
-
-              <div class="card-body">
-                <table
-                  id="datareservasi"
-                  class="table table-bordered table-striped"
-                >
-                  <thead>
-                    <tr>
-                      <th>No.</th>
-                      <th>Nomor Reservasi</th>
-                      <th>Nama Wali</th>
-                      <th>Tanggal Reservasi</th>
-                      <th>Tanggal Kunjungan</th>
-                      <th>Detail Santri</th>
-                      <th>Status Kehadiran</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      v-for="(sambang, no) in reservasi.data"
-                      :key="sambang.id"
-                    >
-                      <td class="text-center">{{ ++no }}</td>
-                      <td>211000000{{ sambang.id }}</td>
-                      <td>{{ sambang.reservasi_walis[0].wali.nama_wali }}</td>
-                      <td>{{ sambang.tgl_reservasi }}</td>
-                      <td>{{ sambang.tgl_kunjungan }}</td>
-                      <td class="text-center">
-                        <router-link :to="/reservasi/ + sambang.id"
-                          >Detail</router-link
-                        >
-                      </td>
-                      <td class="text-center">
-                        <input
-                          v-if="sambang.hadir == false"
-                          type="radio"
-                          v-model="sambang.jam_mula"
-                          @change="hadir(--no, sambang.id)"
-                        />
-                        <p v-else>
-                          <i class="fas fa-check-circle text-success"></i>
-                        </p>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div> -->
           </div>
         </div>
       </div>
@@ -150,7 +88,6 @@ export default {
       no: 1,
       reservasi: [],
       pertemuan: {},
-      informasi: {},
       currentTime: null,
     };
   },
@@ -211,16 +148,6 @@ export default {
           this.$router.go();
         }
       });
-
-    axios
-      .get(
-        "http://localhost:3000/informasi/tanggal/" +
-          moment().format("yyyy-MM-DD")
-      )
-      .then((response) => {
-        this.informasi = response.data;
-      })
-      .catch((this.informasi = ""));
   },
   created() {
     this.currentTime = moment().format("X");

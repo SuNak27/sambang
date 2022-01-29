@@ -84,7 +84,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <router-link to="./reservasi" class="nav-link">
+                <router-link to="/reservasi" class="nav-link">
                   <i class="fas fa-ellipsis-v nav-icon"></i>
                   <p>Reservasi Sambang</p>
                 </router-link>
