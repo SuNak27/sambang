@@ -103,6 +103,7 @@ export default {
 
               toastr.success("Berhasil");
               this.$router.push({ name: "Beranda" });
+              this.$router.go();
             }
           })
           .catch((err) => {
