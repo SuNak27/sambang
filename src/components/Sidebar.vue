@@ -55,19 +55,19 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <router-link to="/settingHari" class="nav-link">
+                <router-link to="settingHari" class="nav-link">
                   <i class="fas fa-ellipsis-v nav-icon"></i>
                   <p>Setting Hari</p>
                 </router-link>
               </li>
               <li class="nav-item">
-                <router-link to="/shift" class="nav-link">
+                <router-link to="shift" class="nav-link">
                   <i class="fas fa-ellipsis-v nav-icon"></i>
                   <p>Setting Shift</p>
                 </router-link>
               </li>
               <li class="nav-item">
-                <router-link to="/pertemuan" class="nav-link">
+                <router-link to="pertemuan" class="nav-link">
                   <i class="fas fa-ellipsis-v nav-icon"></i>
                   <p>Setting Pertemuan</p>
                 </router-link>
@@ -84,13 +84,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <router-link to="/reservasi" class="nav-link">
+                <router-link to="reservasi" class="nav-link">
                   <i class="fas fa-ellipsis-v nav-icon"></i>
                   <p>Reservasi Sambang</p>
                 </router-link>
               </li>
               <li class="nav-item">
-                <router-link to="/history" class="nav-link">
+                <router-link to="history" class="nav-link">
                   <i class="fas fa-ellipsis-v nav-icon"></i>
                   <p>Histori Sambang</p>
                 </router-link>
@@ -98,13 +98,13 @@
             </ul>
           </li>
           <li class="nav-item">
-            <router-link to="/cetak" class="nav-link">
+            <router-link to="cetak" class="nav-link">
               <i class="nav-icon fas fa-print"></i>
               <p>Cetak Data Sambang</p>
             </router-link>
           </li>
           <li class="nav-item" v-if="role == 'sysadmin'">
-            <router-link to="/informasi" class="nav-link">
+            <router-link to="informasi" class="nav-link">
               <i class="nav-icon fas fa-info-circle"></i>
               <p>Informasi</p>
             </router-link>
@@ -134,10 +134,10 @@ export default {
   name: "Sidebar",
   data() {
     return {
-      username: sessionStorage.getItem("user"),
-      role: sessionStorage.getItem("role"),
+      username: localStorage.getItem("user"),
+      role: localStorage.getItem("role"),
       imgUser:
-        "https://ui-avatars.com/api/?name=" + sessionStorage.getItem("user"),
+        "https://ui-avatars.com/api/?name=" + localStorage.getItem("user"),
     };
   },
 };

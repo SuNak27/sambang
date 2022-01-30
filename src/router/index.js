@@ -22,11 +22,10 @@ import TambahInformasi from "../views/TambahInformasi.vue";
 import EditInformasi from "../views/EditInformasi.vue";
 import axios from "axios";
 
-axios.defaults.headers.common["X-Sambang-Token"] = JSON.parse(
-  localStorage.getItem("token")
-);
+axios.defaults.headers.common["X-Sambang-Token"] =
+  localStorage.getItem("token");
 
-axios.defaults.baseURL = "https://api.sambang.belanj.id/";
+axios.defaults.baseURL = "https://api.sambang.belanj.id";
 
 Vue.use(VueRouter);
 const routes = [
@@ -43,9 +42,6 @@ const routes = [
   {
     path: "/",
     component: Dashboard,
-    meta: {
-      requiresAuth: true,
-    },
     children: [
       {
         path: "",
@@ -176,8 +172,8 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const status = JSON.parse(localStorage.getItem("token"));
-  const user = JSON.parse(localStorage.getItem("user"));
+  const status = localStorage.getItem("token");
+  const user = localStorage.getItem("role");
   document.title = `${process.env.VUE_APP_TITLE} - ${to.name}`;
   if (to.name !== "Login" && status == null) {
     next({ name: "Login" });
@@ -185,7 +181,7 @@ router.beforeEach((to, from, next) => {
     next({ path: "/" });
   } else {
     if (to.matched.some((record) => record.meta.is_admin)) {
-      if (user == "sysadmin") {
+      if (user === "sysadmin") {
         next();
       } else {
         next({ path: "/" });
@@ -193,7 +189,6 @@ router.beforeEach((to, from, next) => {
     } else {
       next();
     }
-    next();
   }
 });
 

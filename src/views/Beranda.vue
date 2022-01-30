@@ -160,24 +160,14 @@ export default {
             .appendTo("#datareservasi_wrapper .col-md-6:eq(0)");
         });
       })
-      .catch((error) => {
-        if (error.response.status == 401) {
-          localStorage.removeItem("token");
-          this.$router.push({ name: "Login" });
-        }
-      });
+      .catch();
 
     axios
       .get("/pertemuan")
       .then((response) => {
         this.pertemuan = response.data;
       })
-      .catch(function (error) {
-        if (error.response.status == 401) {
-          localStorage.removeItem("token");
-          this.$router.go();
-        }
-      });
+      .catch();
   },
   created() {
     this.currentTime = moment().format("X");

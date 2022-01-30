@@ -97,17 +97,12 @@ export default {
           })
           .then((response) => {
             if (response.status === 200) {
-              localStorage.setItem(
-                "token",
-                JSON.stringify(response.data.token)
-              );
-              localStorage.setItem("user", JSON.stringify(response.data.role));
-              sessionStorage.setItem("role", response.data.role);
-              sessionStorage.setItem("user", response.data.nama);
+              localStorage.setItem("token", response.data.token);
+              localStorage.setItem("role", response.data.role);
+              localStorage.setItem("user", response.data.nama);
 
-              this.$router.go();
-              // this.$router.push({ name: "Beranda" });
               toastr.success("Berhasil");
+              this.$router.push({ name: "Beranda" });
             }
           })
           .catch((err) => {
