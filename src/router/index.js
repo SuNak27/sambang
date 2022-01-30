@@ -25,7 +25,7 @@ import axios from "axios";
 axios.defaults.headers.common["X-Sambang-Token"] =
   localStorage.getItem("token");
 
-axios.defaults.baseURL = "https://api.sambang.belanj.id";
+axios.defaults.baseURL = "http://localhost:3000";
 
 Vue.use(VueRouter);
 const routes = [
@@ -44,12 +44,12 @@ const routes = [
     component: Dashboard,
     children: [
       {
-        path: "",
+        path: "/",
         name: "Beranda",
         component: Beranda,
       },
       {
-        path: "settingHari",
+        path: "/settingHari",
         name: "Setting Hari",
         component: SettingHari,
         meta: {
@@ -57,7 +57,7 @@ const routes = [
         },
       },
       {
-        path: "tambah_hari",
+        path: "/tambah_hari",
         name: "Tambah Hari",
         component: TambahHari,
         meta: {
@@ -65,7 +65,7 @@ const routes = [
         },
       },
       {
-        path: "edit_hari/:id",
+        path: "/edit_hari/:id",
         name: "Edit Data Hari",
         component: EditHari,
         meta: {
@@ -73,7 +73,7 @@ const routes = [
         },
       },
       {
-        path: "shift",
+        path: "/shift",
         name: "Shift",
         component: Shift,
         meta: {
@@ -81,7 +81,7 @@ const routes = [
         },
       },
       {
-        path: "tambah_shift",
+        path: "/tambah_shift",
         name: "Tambah Shift",
         component: TambahShift,
         meta: {
@@ -89,7 +89,7 @@ const routes = [
         },
       },
       {
-        path: "edit_shift/:id",
+        path: "/edit_shift/:id",
         name: "Edit Shift",
         component: EditShift,
         meta: {
@@ -97,7 +97,7 @@ const routes = [
         },
       },
       {
-        path: "pertemuan",
+        path: "/pertemuan",
         name: "Pertemuan",
         component: Pertemuan,
         meta: {
@@ -105,22 +105,22 @@ const routes = [
         },
       },
       {
-        path: "reservasi",
+        path: "/reservasi",
         name: "Reservasi",
         component: Reservasi,
       },
       {
-        path: "tambah_reservasi",
+        path: "/tambah_reservasi",
         name: "Tambah Reservasi",
         component: TambahReservasi,
       },
       {
-        path: "reservasi/:id",
+        path: "/reservasi/:id",
         name: "Detail Reservasi",
         component: DetailReservasi,
       },
       {
-        path: "konfirmasi/:id",
+        path: "/konfirmasi/:id",
         name: "Konfirmasi",
         component: Konfirmasi,
         meta: {
@@ -128,17 +128,17 @@ const routes = [
         },
       },
       {
-        path: "history",
+        path: "/history",
         name: "History",
         component: History,
       },
       {
-        path: "cetak",
+        path: "/cetak",
         name: "Cetak",
         component: Cetak,
       },
       {
-        path: "informasi",
+        path: "/informasi",
         name: "Pusat Informasi",
         component: Informasi,
         meta: {
@@ -146,7 +146,7 @@ const routes = [
         },
       },
       {
-        path: "tambahInformasi",
+        path: "/tambahInformasi",
         name: "Tambah Informasi",
         component: TambahInformasi,
         meta: {
@@ -154,7 +154,7 @@ const routes = [
         },
       },
       {
-        path: "editInformasi/:id",
+        path: "/editInformasi/:id",
         name: "Edit Informasi",
         component: EditInformasi,
         meta: {

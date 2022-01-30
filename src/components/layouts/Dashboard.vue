@@ -70,8 +70,7 @@ export default {
     logout() {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
-      sessionStorage.removeItem("user");
-      sessionStorage.removeItem("role");
+      localStorage.removeItem("role");
       this.$router.push("/login");
     },
   },
