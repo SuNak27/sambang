@@ -60,6 +60,10 @@ export default {
             name: "Santri Putra",
             data: [],
             type: "line",
+            symbol: "none",
+            areaStyle: {
+              color: "blue",
+            },
             emphasis: {
               focus: "series",
             },
@@ -69,6 +73,8 @@ export default {
             name: "Santri Putri",
             data: [],
             type: "line",
+            symbol: "none",
+            areaStyle: {},
             emphasis: {
               focus: "series",
             },

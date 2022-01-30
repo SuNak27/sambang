@@ -147,7 +147,7 @@
                       ></b-form-datepicker>
 
                       <div v-if="reservasi.tgl_kunjungan">
-                        <Info :value="info()" />
+                        <Info :value="info()" :data="this.mahrom" />
                       </div>
                     </div>
                   </div>
@@ -255,7 +255,8 @@
                           <tr v-if="moreWali == 'Lebih'">
                             <td colspan="5" class="text-center">
                               <div class="btn btn-danger btn-block">
-                                Maksimal Hanya Boleh Memilih 2 Wali Santri
+                                Maksimal Hanya Boleh Memilih
+                                {{ pertemuan.batas_tamu }} Wali Santri
                               </div>
                             </td>
                           </tr>
@@ -329,6 +330,8 @@ export default {
       checkedWali: [],
       wali: [],
       liburSambang: false,
+      pertemuan: {},
+      mahrom: [],
     };
   },
   methods: {
@@ -399,6 +402,11 @@ export default {
           this.liburSambang = false;
         }
       }
+
+      axios
+        .get("/reservasi/mahrom/" + this.nik)
+        .then((response) => (this.mahrom = response.data))
+        .catch((error) => console.log(error));
     },
     pilihSantri() {
       if (this.checkedSantri.length >= 1) {
@@ -495,6 +503,15 @@ export default {
           this.$router.go();
         }
       });
+    axios
+      .get("/pertemuan")
+      .then((response) => (this.pertemuan = response.data.data[0]))
+      .catch(function (error) {
+        if (error.response.status == 401) {
+          localStorage.removeItem("token");
+          this.$router.go();
+        }
+      });
   },
   computed: {
     disabledSantri() {
@@ -506,7 +523,8 @@ export default {
     },
     moreWali() {
       let statusWali = this.checkedWali;
-      if (statusWali[2]) {
+      const batas = this.pertemuan.batas_tamu;
+      if (statusWali.length > batas) {
         statusWali = "Lebih";
         return statusWali;
       }

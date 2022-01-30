@@ -35,11 +35,13 @@ export default {
   name: "info",
   props: {
     value: [],
+    data: [],
   },
   data() {
     return {
       info: "",
       informasi: {},
+      reservasiMahrom: {},
     };
   },
   methods: {
@@ -66,6 +68,7 @@ export default {
   },
   created() {
     this.info = this.value;
+    this.info = this.data;
   },
   mounted() {
     axios
