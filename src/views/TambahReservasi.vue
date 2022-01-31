@@ -146,8 +146,12 @@
                         close-button
                       ></b-form-datepicker>
 
-                      <div v-if="reservasi.tgl_kunjungan">
-                        <Info :value="info()" :data="this.mahrom" />
+                      <div v-if="reservasi.tgl_kunjungan && nik != ''">
+                        <Info
+                          :value="info()"
+                          :data="this.mahrom"
+                          :date="reservasi.tgl_kunjungan"
+                        />
                       </div>
                     </div>
                   </div>
@@ -358,6 +362,11 @@ export default {
             this.santri = "";
           }
         });
+
+      axios
+        .get("/reservasi/mahrom/" + this.nik)
+        .then((response) => (this.mahrom = response.data))
+        .catch((error) => console.log(error));
     },
     filterHari(event) {
       axios
@@ -402,11 +411,7 @@ export default {
           this.liburSambang = false;
         }
       }
-
-      axios
-        .get("/reservasi/mahrom/" + this.nik)
-        .then((response) => (this.mahrom = response.data))
-        .catch((error) => console.log(error));
+      return this.reservasi.tgl_kunjungan;
     },
     pilihSantri() {
       if (this.checkedSantri.length >= 1) {
