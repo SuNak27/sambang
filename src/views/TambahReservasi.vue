@@ -144,6 +144,7 @@
                         :min="min"
                         reset-button
                         close-button
+                        @input="moreSambang()"
                       ></b-form-datepicker>
 
                       <div v-if="reservasi.tgl_kunjungan && nik != ''">
@@ -336,6 +337,9 @@ export default {
       liburSambang: false,
       pertemuan: {},
       mahrom: [],
+      sambang: 0,
+      groupedData: [],
+      tgl_kunjungan: "",
     };
   },
   methods: {
@@ -429,6 +433,7 @@ export default {
         this.reservasi.id_hari != null &&
         this.reservasi.id_shift != null &&
         this.liburSambang == false &&
+        this.sambang < this.pertemuan.batas_sambang &&
         this.reservasi.tgl_kunjungan != null
       ) {
         if (
@@ -466,16 +471,64 @@ export default {
             this.reservasi_santri.id_santri = s;
             axios
               .post("/reservasi_santri", this.reservasi_santri)
-              .then(toastr.success("Data telah ditambah"))
+              .then()
               .catch((err) => console.log("Gagal", err));
           }
+          toastr.success("Data telah ditambah");
           this.$router.push({ path: "reservasi" });
         } else {
           toastr.error("Pastikan telah mengisi data yang sesuai");
         }
       } else {
-        toastr.error("Terdapat data yang salah/kosong");
+        toastr.error(
+          "Terdapat data yang salah/kosong. Silahkan periksa kembali"
+        );
       }
+    },
+    moreSambang() {
+      this.groupedData = this.tgl(this.mahrom.data, "tgl_kunjungan");
+      return this.sambang;
+    },
+    tgl(arr, prop) {
+      var grouped = {};
+      for (var i = 0; i < arr.length; i++) {
+        var p = arr[i][prop];
+        if (!grouped[p]) {
+          grouped[p] = [];
+        }
+
+        for (let j = 0; j < Object.keys(grouped).length; j++) {
+          const element = Object.keys(grouped)[j];
+          const getDate = moment(element).format("MM");
+          const kunjungan = moment(this.reservasi.tgl_kunjungan).format("MM");
+          if (getDate == kunjungan) {
+            grouped[p].push(moment(element).format("MM"));
+          }
+        }
+      }
+      grouped[p].sort();
+
+      var current = null;
+      var cnt = 0;
+      for (var o = 0; o < grouped[p].length; o++) {
+        if (grouped[p][o] != current) {
+          if (cnt > 0) {
+            this.sambang = cnt;
+            return grouped;
+          }
+          current = grouped[p][o];
+          cnt = 1;
+        } else {
+          cnt++;
+        }
+      }
+      if (cnt > 0) {
+        this.sambang = cnt;
+        return grouped;
+      } else {
+        this.sambang = 0;
+      }
+      return grouped;
     },
   },
   mounted() {

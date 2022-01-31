@@ -33,7 +33,8 @@ import "admin-lte/plugins/datatables-buttons/js/buttons.bootstrap4.min";
 import "admin-lte/plugins/jszip/jszip.min";
 import "admin-lte/plugins/pdfmake/pdfmake.min";
 import "admin-lte/plugins/pdfmake/vfs_fonts";
-import "admin-lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min";
+
+// import "admin-lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min";
 import "admin-lte/plugins/datatables-buttons/js/buttons.html5.min";
 import "admin-lte/plugins/datatables-buttons/js/buttons.print.min";
 import "admin-lte/plugins/datatables-buttons/js/buttons.colVis.min";
