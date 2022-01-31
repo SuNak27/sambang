@@ -25,7 +25,7 @@ import axios from "axios";
 axios.defaults.headers.common["X-Sambang-Token"] =
   localStorage.getItem("token");
 
-axios.defaults.baseURL = "https://api.sambang.belanj.id";
+axios.defaults.baseURL = "https://api-sambang.belanj.id/sambang";
 
 Vue.use(VueRouter);
 const routes = [

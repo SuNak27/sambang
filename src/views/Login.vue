@@ -58,7 +58,7 @@
                   class="btn btn-primary btn-block"
                   @click="simpan()"
                 >
-                  Simpan
+                  Login
                 </button>
               </div>
               <!-- /.col -->
