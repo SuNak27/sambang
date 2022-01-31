@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ moreSambang() }}
     <div v-if="reservasiMahrom">
       <div class="card card-danger mt-3" v-if="informasi.data">
         <h5 class="card-header">Sambang Ditutup</h5>
@@ -30,7 +29,7 @@
         </div>
       </div>
     </div>
-    <div v-if="sambang > pertemuan.batas_sambang">
+    <div v-if="moreSambang() > pertemuan.batas_sambang">
       <div class="card card-danger mt-3">
         <h5 class="card-header">Melebihi batas</h5>
         <div class="card-body">
@@ -82,6 +81,7 @@ export default {
     },
     moreSambang() {
       this.groupedData = this.tgl(this.reservasiMahrom.data, "tgl_kunjungan");
+      return this.sambang;
     },
     tgl(arr, prop) {
       var grouped = {};
