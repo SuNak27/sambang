@@ -13,9 +13,9 @@
               <div class="card-body">
                 <table
                   id="datareservasi"
-                  class="table table-bordered table-responsive table-striped"
+                  class="table table-bordered table-responsive-md table-hover"
                 >
-                  <thead>
+                  <thead class="thead-dark">
                     <tr>
                       <th>No.</th>
                       <th>Nomor Pengurus</th>

@@ -10,19 +10,19 @@
                 <h3 class="card-title mt-2 text-white">
                   <b>Tabel Setting Hari</b>
                 </h3>
-                <router-link
-                  to="/tambah_hari"
-                  class="btn btn-success float-right text-white"
-                  >Tambah Setting Hari</router-link
-                >
               </div>
 
               <div class="card-body">
+                <router-link
+                  to="/tambah_hari"
+                  class="btn btn-success mb-3 btn-block col-md-2 text-white"
+                  >Tambah Setting Hari</router-link
+                >
                 <table
                   id="tabelHari"
-                  class="table table-bordered table-striped"
+                  class="table table-bordered table-responsive-md table-hover"
                 >
-                  <thead>
+                  <thead class="thead-dark">
                     <tr>
                       <th>No.</th>
                       <th>Nama Hari</th>
@@ -30,7 +30,7 @@
                       <th>Shift</th>
                       <th>Kapasitas</th>
                       <th>Status</th>
-                      <th>Aksi</th>
+                      <th class="text-center">Aksi</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -41,28 +41,27 @@
                       <td>{{ hari.shift.nama_shift }}</td>
                       <td>{{ hari.kapasitas }}</td>
                       <td>{{ hari.status }}</td>
-                      <td>
+                      <td class="text-center">
                         <router-link
                           :to="'/edit_hari/' + hari.id"
-                          class="badge badge-warning"
-                          >Edit</router-link
-                        >
-                        |
+                          class="btn btn-sm mb-2 ml-2 btn-warning"
+                          ><i class="fas fa-edit"></i
+                        ></router-link>
                         <a
                           style="cursor: pointer"
                           v-if="hari.status == 'Nonaktif'"
                           @click="clickAktif(--no, hari.id)"
-                          class="badge badge-success"
+                          class="btn btn-sm btn-success mb-2 ml-2"
                         >
-                          Aktif
+                          <i class="fas fa-power-off"></i>
                         </a>
                         <a
                           style="cursor: pointer"
                           v-else
-                          class="badge badge-danger"
+                          class="btn btn-sm btn-danger mb-2 ml-2"
                           @click="clickNonaktif(--no, hari.id)"
                         >
-                          Non Aktif
+                          <i class="fas fa-power-off"></i>
                         </a>
                       </td>
                     </tr>
@@ -120,7 +119,7 @@ export default {
         $(function () {
           $("#tabelHari")
             .DataTable({
-              responsive: true,
+              responsive: false,
               autoWidth: false,
             })
             .buttons()
@@ -129,9 +128,11 @@ export default {
         });
       })
       .catch(function (error) {
-        if (error.response.status == 401) {
+        if (error.response.status === 401) {
           localStorage.removeItem("token");
-          this.$router.go();
+          localStorage.removeItem("user");
+          localStorage.removeItem("role");
+          this.$router.push({ path: "/login" });
         }
       });
   },

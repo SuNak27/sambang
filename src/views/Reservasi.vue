@@ -10,19 +10,19 @@
                 <h3 class="card-title mt-2 text-white">
                   <b>Tabel Data Reservasi Sambang</b>
                 </h3>
-                <router-link
-                  to="/tambah_reservasi"
-                  class="btn btn-success float-right text-white"
-                  >Tambah Reservasi Sambang</router-link
-                >
               </div>
 
               <div class="card-body">
+                <router-link
+                  to="/tambah_reservasi"
+                  class="btn btn-success mb-2 col-md-2 text-white"
+                  >Tambah Reservasi</router-link
+                >
                 <table
                   id="datareservasi"
-                  class="table table-bordered table-responsive-md table-striped"
+                  class="table table-bordered table-responsive-md table-hover"
                 >
-                  <thead>
+                  <thead class="thead-dark">
                     <tr>
                       <th>No.</th>
                       <th>Nomor Reservasi</th>
@@ -122,7 +122,7 @@ export default {
       .catch(function (error) {
         if (error.response.status == 401) {
           localStorage.removeItem("token");
-          this.$router.go();
+          this.$router.push("/login");
         }
       });
 
@@ -134,7 +134,7 @@ export default {
       .catch(function (error) {
         if (error.response.status == 401) {
           localStorage.removeItem("token");
-          this.$router.go();
+          this.$router.push("/login");
         }
       });
   },

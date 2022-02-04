@@ -222,9 +222,11 @@ export default {
       .get("/hari/" + this.$route.params.id)
       .then((response) => (this.hari = response.data))
       .catch(function (error) {
-        if (error.response.status == 401) {
+        if (error.response.status === 401) {
           localStorage.removeItem("token");
-          this.$router.go();
+          localStorage.removeItem("user");
+          localStorage.removeItem("role");
+          this.$router.push({ path: "/login" });
         }
       });
 
@@ -232,9 +234,11 @@ export default {
       .get("/shift")
       .then((response) => (this.shift = response.data))
       .catch(function (error) {
-        if (error.response.status == 401) {
+        if (error.response.status === 401) {
           localStorage.removeItem("token");
-          this.$router.go();
+          localStorage.removeItem("user");
+          localStorage.removeItem("role");
+          this.$router.push({ path: "/login" });
         }
       });
 
@@ -242,9 +246,11 @@ export default {
       .get("/wilayah")
       .then((response) => (this.wilayah = response.data))
       .catch(function (error) {
-        if (error.response.status == 401) {
+        if (error.response.status === 401) {
           localStorage.removeItem("token");
-          this.$router.go();
+          localStorage.removeItem("user");
+          localStorage.removeItem("role");
+          this.$router.push({ path: "/login" });
         }
       });
   },

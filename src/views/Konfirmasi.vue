@@ -153,9 +153,11 @@ export default {
       .get("/santri/id/" + this.$route.params.id)
       .then((response) => (this.konfirmasi = response.data))
       .catch(function (error) {
-        if (error.response.status == 401) {
+        if (error.response.status === 401) {
           localStorage.removeItem("token");
-          this.$router.go();
+          localStorage.removeItem("user");
+          localStorage.removeItem("role");
+          this.$router.push({ path: "/login" });
         }
       });
   },

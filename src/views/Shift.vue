@@ -10,19 +10,19 @@
                 <h3 class="card-title mt-2 text-white">
                   <b>Tabel Shift</b>
                 </h3>
-                <router-link
-                  to="/tambah_shift"
-                  class="btn btn-success float-right text-white"
-                  >Tambah Shift</router-link
-                >
               </div>
 
               <div class="card-body">
+                <router-link
+                  to="/tambah_shift"
+                  class="btn btn-success mb-3 col-md-2 text-white"
+                  >Tambah Shift</router-link
+                >
                 <table
                   id="tabelShift"
-                  class="table table-bordered table-striped"
+                  class="table table-bordered table-responsive-md table-hover"
                 >
-                  <thead>
+                  <thead class="thead-dark">
                     <tr>
                       <th>No.</th>
                       <th>Nama Shift</th>
@@ -30,7 +30,7 @@
                       <th>Jam Akhir</th>
                       <th>Jumlah Santri</th>
                       <th>Status</th>
-                      <th>Aksi</th>
+                      <th class="text-center">Aksi</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -41,28 +41,28 @@
                       <td>{{ shift.jam_akhir }}</td>
                       <td>{{ shift.jml_santri }}</td>
                       <td>{{ shift.status }}</td>
-                      <td>
+                      <td class="text-center">
                         <router-link
                           :to="'/edit_shift/' + shift.id"
-                          class="badge badge-warning"
-                          >Edit</router-link
+                          class="btn btn-warning btn-sm mb-2 ml-2"
                         >
-                        |
+                          <i class="fas fa-edit"></i
+                        ></router-link>
                         <a
                           style="cursor: pointer"
                           v-if="shift.status == 'Nonaktif'"
                           @click="clickAktif(--no, shift.id)"
-                          class="badge badge-success"
+                          class="btn btn-success btn-sm mb-2 ml-2"
                         >
-                          Aktif
+                          <i class="fas fa-power-off"></i>
                         </a>
                         <a
                           style="cursor: pointer"
                           v-else
-                          class="badge badge-danger"
+                          class="btn btn-danger btn-sm mb-2 ml-2"
                           @click="clickNonaktif(--no, shift.id)"
                         >
-                          Non Aktif
+                          <i class="fas fa-power-off"></i>
                         </a>
                       </td>
                     </tr>
@@ -120,7 +120,7 @@ export default {
         $(function () {
           $("#tabelShift")
             .DataTable({
-              responsive: true,
+              responsive: false,
               autoWidth: false,
             })
             .buttons()
