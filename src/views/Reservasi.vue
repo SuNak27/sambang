@@ -20,7 +20,7 @@
               <div class="card-body">
                 <table
                   id="datareservasi"
-                  class="table table-bordered table-striped"
+                  class="table table-bordered table-responsive-md table-striped"
                 >
                   <thead>
                     <tr>
@@ -49,15 +49,19 @@
                         >
                       </td>
                       <td class="text-center">
-                        <input
+                        <button
+                          class="btn btn-secondary btn-block"
+                          data-toggle="modal"
+                          :data-target="'#hadir_' + sambang.id"
                           v-if="sambang.hadir == false"
-                          type="radio"
-                          v-model="sambang.jam_mula"
-                          @change="hadir(--no, sambang.id)"
-                        />
+                        >
+                          <i class="far fa-circle"></i>
+                        </button>
                         <p v-else>
                           <i class="fas fa-check-circle text-success"></i>
                         </p>
+
+                        <Modal :res="sambang" />
                       </td>
                     </tr>
                   </tbody>
@@ -73,15 +77,16 @@
 
 <script>
 import Header from "@/components/Header.vue";
+import Modal from "@/components/Modal.vue";
 import axios from "axios";
 import moment from "moment";
 import $ from "jquery";
-import toastr from "admin-lte/plugins/toastr/toastr.min";
 
 export default {
   name: "Reservasi",
   components: {
     Header,
+    Modal,
   },
   data() {
     return {
@@ -95,21 +100,6 @@ export default {
     setSettingSambang(data) {
       this.reservasi = data;
     },
-    hadir(no, id) {
-      this.reservasi.data[no].hadir = true;
-      this.reservasi.data[no].jam_mula = moment().format("X");
-      this.reservasi.data[no].jam_final = moment()
-        .add(this.pertemuan.data[0].waktu, "minutes")
-        .format("X");
-      axios
-        .put("/reservasi/" + id, this.reservasi.data[no])
-        .then(
-          $(function () {
-            toastr.success("Hadir");
-          })
-        )
-        .catch((error) => console.log(error));
-    },
     updateCurrentTime() {
       this.currentTime = moment().format("X");
     },
@@ -122,8 +112,7 @@ export default {
         $(function () {
           $("#datareservasi")
             .DataTable({
-              responsive: true,
-              autoWidth: false,
+              autoWidth: true,
             })
             .buttons()
             .container()

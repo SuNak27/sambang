@@ -140,13 +140,21 @@
                     <label for="" class="col-md-4">Tanggal Kunjungan</label>
                     <div class="col-md-8">
                       <b-form-datepicker
+                        v-if="!reservasi.id_hari"
+                        reset-button
+                        close-button
+                        readonly
+                      ></b-form-datepicker>
+
+                      <b-form-datepicker
+                        v-else
                         v-model="reservasi.tgl_kunjungan"
                         :min="min"
                         reset-button
                         close-button
+                        :date-disabled-fn="dateDisabled"
                         @input="moreSambang()"
                       ></b-form-datepicker>
-
                       <div v-if="reservasi.tgl_kunjungan && nik != ''">
                         <Info
                           :value="info()"
@@ -396,6 +404,9 @@ export default {
         .then((response) => {
           this.check = response.data;
           this.status = response.data.data.status_hari;
+          if (this.reservasi.tgl_kunjungan) {
+            this.reservasi.tgl_kunjungan = "";
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -423,6 +434,31 @@ export default {
       } else {
         this.status_santri = "";
       }
+    },
+    dateDisabled(ymd, date) {
+      const weekday = date.getDay();
+      if (this.check != "") {
+        if (this.check.data.nama_hari == "Minggu") {
+          return weekday != 0;
+        } else if (this.check.data.nama_hari == "Senin") {
+          return weekday != 1;
+        } else if (this.check.data.nama_hari == "Selasa") {
+          return weekday != 2;
+        } else if (this.check.data.nama_hari == "Rabu") {
+          return weekday != 3;
+        } else if (this.check.data.nama_hari == "Kamis") {
+          return weekday != 4;
+        } else if (this.check.data.nama_hari == "Sabtu") {
+          return weekday != 6;
+        } else if (this.check.data.nama_hari == "Jum'at") {
+          return weekday != 5;
+        }
+      } else {
+        return weekday;
+      }
+      // Disable weekends (Sunday = `0`, Saturday = `6`) and
+      // disable days that fall on the 13th of the month
+      // Return `true` if the date should be disabled
     },
     simpan() {
       this.reservasi.no_mahrom = this.nik;

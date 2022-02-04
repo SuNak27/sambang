@@ -29,7 +29,7 @@
         </div>
       </div>
     </div>
-    <div v-if="moreSambang() > pertemuan.batas_sambang">
+    <div v-if="moreSambang() >= pertemuan.batas_sambang">
       <div class="card card-danger mt-3">
         <h5 class="card-header">Melebihi batas</h5>
         <div class="card-body">
@@ -142,13 +142,11 @@ export default {
     data: {
       handler: function (value) {
         this.reservasiMahrom = value;
-        this.moreSambang();
       },
     },
     date: {
       handler: function (value) {
         this.tgl_kunjungan = value;
-        this.moreSambang();
       },
     },
   },
