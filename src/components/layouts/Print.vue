@@ -33,25 +33,17 @@
               <td>{{ sambang.reservasi_walis[0].wali.nama_wali }}</td>
               <td class="text-center">{{ sambang.tgl_kunjungan }}</td>
               <td class="text-center">
-                <input
-                  v-if="sambang.hadir == false"
-                  type="radio"
-                  v-model="sambang.jam_mula"
-                  class="toastrSuccess"
-                  @change="hadir(--no, sambang.id)"
-                />
-                <p v-else>
-                  <i class="fas fa-check-circle text-success"></i>
-                </p>
+                <p v-if="sambang.hadir == false">-</p>
+                <p v-else>Hadir</p>
               </td>
               <td class="text-center" v-if="sambang.jam_mula">
                 {{ formatTime(sambang.jam_mula) }}
               </td>
-              <td class="text-center" v-else></td>
+              <td class="text-center" v-else>-</td>
               <td class="text-center" v-if="sambang.jam_mula">
                 {{ formatTime(sambang.jam_final) }}
               </td>
-              <td class="text-center" v-else></td>
+              <td class="text-center" v-else>-</td>
             </tr>
           </tbody>
         </table>
@@ -90,7 +82,7 @@ export default {
         });
       })
       .catch((err) => {
-        this.$router.push("/cetak");
+        window.close();
         toastr.error(err.response.data.message);
       });
   },
