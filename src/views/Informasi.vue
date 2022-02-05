@@ -10,19 +10,19 @@
                 <h3 class="card-title mt-2 text-white">
                   <b>Tabel Informasi</b>
                 </h3>
-                <router-link
-                  to="/tambahInformasi"
-                  class="btn btn-success float-right text-white"
-                  >Tambah Informasi</router-link
-                >
               </div>
 
               <div class="card-body">
+                <router-link
+                  to="/tambahInformasi"
+                  class="btn btn-success mb-2 col-md-2 text-white"
+                  >Tambah Informasi</router-link
+                >
                 <table
                   id="informasiTable"
-                  class="table table-bordered table-striped"
+                  class="table table-bordered table-hover table-responsive-md"
                 >
-                  <thead>
+                  <thead class="thead-dark">
                     <tr>
                       <th>No.</th>
                       <th>Nama Informasi</th>
@@ -30,6 +30,7 @@
                       <th>Tanggal Mulai</th>
                       <th>Tanggal Akhir</th>
                       <th>Status</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -39,28 +40,28 @@
                       <td>{{ info.detail_informasi }}</td>
                       <td>{{ info.tanggal_mulai }}</td>
                       <td>{{ info.tanggal_akhir }}</td>
+                      <td>{{ info.status }}</td>
                       <td>
                         <router-link
                           :to="'/editInformasi/' + info.id"
-                          class="badge badge-warning"
-                          >Edit</router-link
-                        >
-                        |
+                          class="btn btn-warning btn-sm ml-2 mb-2"
+                          ><i class="fas fa-edit"></i
+                        ></router-link>
                         <a
                           style="cursor: pointer"
                           v-if="info.status == 'Tutup'"
                           @click="clickBuka(--no, info.id)"
-                          class="badge badge-success"
+                          class="btn btn-success btn-sm ml-2 mb-2"
                         >
-                          Buka
+                          <i class="fas fa-power-off"></i>
                         </a>
                         <a
                           style="cursor: pointer"
                           v-else
-                          class="badge badge-danger"
+                          class="btn btn-danger btn-sm ml-2 mb-2"
                           @click="clickTutup(--no, info.id)"
                         >
-                          Tutup
+                          <i class="fas fa-power-off"></i>
                         </a>
                       </td>
                     </tr>
@@ -115,7 +116,7 @@ export default {
         $(function () {
           $("#informasiTable")
             .DataTable({
-              responsive: true,
+              responsive: false,
               autoWidth: false,
             })
             .buttons()
@@ -124,9 +125,11 @@ export default {
         });
       })
       .catch(function (error) {
-        if (error.response.status == 401) {
+        if (error.response.status === 401) {
           localStorage.removeItem("token");
-          this.$router.go();
+          localStorage.removeItem("user");
+          localStorage.removeItem("role");
+          this.$router.push({ path: "/login" });
         }
       });
   },

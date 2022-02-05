@@ -142,13 +142,11 @@ export default {
     data: {
       handler: function (value) {
         this.reservasiMahrom = value;
-        this.moreSambang();
       },
     },
     date: {
       handler: function (value) {
         this.tgl_kunjungan = value;
-        this.moreSambang();
       },
     },
   },

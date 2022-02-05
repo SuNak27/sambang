@@ -38,6 +38,7 @@ export default {
         ],
         toolbox: {
           show: true,
+          orient: "vertical",
           feature: {
             dataZoom: {
               yAxisIndex: "none",

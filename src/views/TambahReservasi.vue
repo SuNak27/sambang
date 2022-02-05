@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header msg="Tambah Reservasi Sambang" />
+    <Header msg="Tambah Reservasi" />
 
     <section class="content">
       <div class="container-fluid">
@@ -9,7 +9,7 @@
             <div class="card card-secondary">
               <div class="card-header">
                 <h3 class="card-title text-white">
-                  <b>Tambah Reservasi Sambang</b>
+                  <b>Tambah Reservasi</b>
                 </h3>
               </div>
 
@@ -140,13 +140,20 @@
                     <label for="" class="col-md-4">Tanggal Kunjungan</label>
                     <div class="col-md-8">
                       <b-form-datepicker
+                        v-if="reservasi.id_hari && nik != ''"
                         v-model="reservasi.tgl_kunjungan"
                         :min="min"
                         reset-button
                         close-button
+                        :date-disabled-fn="dateDisabled"
                         @input="moreSambang()"
                       ></b-form-datepicker>
-
+                      <b-form-datepicker
+                        v-else
+                        reset-button
+                        close-button
+                        readonly
+                      ></b-form-datepicker>
                       <div v-if="reservasi.tgl_kunjungan && nik != ''">
                         <Info
                           :value="info()"
@@ -159,8 +166,8 @@
                   <div class="form-group row">
                     <label for="" class="col-md-4">Data Santri</label>
                     <div class="col-md-8">
-                      <table class="table table-striped">
-                        <thead>
+                      <table class="table table-hover table-responsive-sm">
+                        <thead class="thead-dark">
                           <th>No</th>
                           <th>No Mahrom</th>
                           <th>Nama Santri</th>
@@ -221,8 +228,8 @@
                   <div class="form-group row">
                     <label for="" class="col-md-4">Data Mahrom / Tamu</label>
                     <div class="col-md-8">
-                      <table class="table table-striped">
-                        <thead>
+                      <table class="table table-hover table-responsive-sm">
+                        <thead class="thead-dark">
                           <th>No</th>
                           <th>No Mahrom</th>
                           <th>Nama Mahrom</th>
@@ -396,6 +403,9 @@ export default {
         .then((response) => {
           this.check = response.data;
           this.status = response.data.data.status_hari;
+          if (this.reservasi.tgl_kunjungan) {
+            this.reservasi.tgl_kunjungan = "";
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -423,6 +433,31 @@ export default {
       } else {
         this.status_santri = "";
       }
+    },
+    dateDisabled(ymd, date) {
+      const weekday = date.getDay();
+      if (this.check != "") {
+        if (this.check.data.nama_hari == "Minggu") {
+          return weekday != 0;
+        } else if (this.check.data.nama_hari == "Senin") {
+          return weekday != 1;
+        } else if (this.check.data.nama_hari == "Selasa") {
+          return weekday != 2;
+        } else if (this.check.data.nama_hari == "Rabu") {
+          return weekday != 3;
+        } else if (this.check.data.nama_hari == "Kamis") {
+          return weekday != 4;
+        } else if (this.check.data.nama_hari == "Sabtu") {
+          return weekday != 6;
+        } else if (this.check.data.nama_hari == "Jum'at") {
+          return weekday != 5;
+        }
+      } else {
+        return weekday;
+      }
+      // Disable weekends (Sunday = `0`, Saturday = `6`) and
+      // disable days that fall on the 13th of the month
+      // Return `true` if the date should be disabled
     },
     simpan() {
       this.reservasi.no_mahrom = this.nik;
@@ -536,9 +571,11 @@ export default {
       .get("/shift")
       .then((response) => (this.shift = response.data))
       .catch(function (error) {
-        if (error.response.status == 401) {
+        if (error.response.status === 401) {
           localStorage.removeItem("token");
-          this.$router.go();
+          localStorage.removeItem("user");
+          localStorage.removeItem("role");
+          this.$router.push({ path: "/login" });
         }
       });
 
@@ -546,9 +583,11 @@ export default {
       .get("/informasi")
       .then((response) => (this.informasi = response.data))
       .catch(function (error) {
-        if (error.response.status == 401) {
+        if (error.response.status === 401) {
           localStorage.removeItem("token");
-          this.$router.go();
+          localStorage.removeItem("user");
+          localStorage.removeItem("role");
+          this.$router.push({ path: "/login" });
         }
       });
 
@@ -556,18 +595,22 @@ export default {
       .get("/reservasiId")
       .then((response) => (this.reservasiId = response.data))
       .catch(function (error) {
-        if (error.response.status == 401) {
+        if (error.response.status === 401) {
           localStorage.removeItem("token");
-          this.$router.go();
+          localStorage.removeItem("user");
+          localStorage.removeItem("role");
+          this.$router.push({ path: "/login" });
         }
       });
     axios
       .get("/pertemuan")
       .then((response) => (this.pertemuan = response.data.data[0]))
       .catch(function (error) {
-        if (error.response.status == 401) {
+        if (error.response.status === 401) {
           localStorage.removeItem("token");
-          this.$router.go();
+          localStorage.removeItem("user");
+          localStorage.removeItem("role");
+          this.$router.push({ path: "/login" });
         }
       });
   },

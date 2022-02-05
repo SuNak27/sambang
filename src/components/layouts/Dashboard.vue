@@ -31,7 +31,7 @@
                 class="btn btn-default"
                 data-dismiss="modal"
               >
-                Close
+                Batal
               </button>
               <button
                 type="submit"
@@ -47,6 +47,7 @@
         </div>
         <!-- /.modal-dialog -->
       </div>
+
       <!-- Control Sidebar -->
       <aside class="control-sidebar control-sidebar-dark">
         <!-- Control sidebar content goes here -->

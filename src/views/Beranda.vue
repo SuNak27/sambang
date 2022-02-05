@@ -14,18 +14,18 @@
               <div class="card-body">
                 <table
                   id="datareservasi"
-                  class="table table-bordered table-hover"
+                  class="table table-bordered table-responsive-md table-hover"
                 >
-                  <thead class="thead-light">
+                  <thead class="thead-dark">
                     <tr>
                       <th>No.</th>
                       <th>Nomor Pengurus</th>
                       <th>Nama Wali</th>
                       <th>Tgl Kunjungan</th>
-                      <!-- <th>Kehadiran</th>
+                      <th>Kehadiran</th>
                       <th>Jam Mulai</th>
                       <th>Jam Akhir</th>
-                      <th>Status Pertemuan</th> -->
+                      <th>Status Pertemuan</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -39,17 +39,25 @@
                       <td>Nomer Pengurus</td>
                       <td>{{ sambang.reservasi_walis[0].wali.nama_wali }}</td>
                       <td class="text-center">{{ sambang.tgl_kunjungan }}</td>
-                      <!-- <td class="text-center">
-                        <input
+                      <td class="text-center">
+                        <router-link :to="/reservasi/ + sambang.id"
+                          >Detail</router-link
+                        >
+                      </td>
+                      <td class="text-center">
+                        <button
+                          class="btn btn-secondary btn-block"
+                          data-toggle="modal"
+                          :data-target="'#hadir_' + sambang.id"
                           v-if="sambang.hadir == false"
-                          type="radio"
-                          v-model="sambang.jam_mula"
-                          class="toastrSuccess"
-                          @change="hadir(--no, sambang.id)"
-                        />
+                        >
+                          <i class="far fa-circle"></i>
+                        </button>
                         <p v-else>
                           <i class="fas fa-check-circle text-success"></i>
                         </p>
+
+                        <Modal :res="sambang" />
                       </td>
                       <td class="text-center" v-if="sambang.jam_mula">
                         {{ formatTime(sambang.jam_mula) }}
@@ -73,7 +81,8 @@
                       >
                         <i class="fas fa-check-circle"></i> Berlangsung
                       </td>
-                      <td v-else></td> -->
+                      <td v-else></td>
+                      -->
                     </tr>
                   </tbody>
                 </table>
@@ -99,10 +108,9 @@
 <script>
 import Header from "@/components/Header.vue";
 import Chart from "@/components/Chart.vue";
-import DashboardClick from "@/components/DashboardClick.vue";
+import Modal from "@/components/Modal.vue";
 import axios from "axios";
 import $ from "jquery";
-import toastr from "admin-lte/plugins/toastr/toastr.min";
 import moment from "moment";
 
 export default {
@@ -110,7 +118,7 @@ export default {
   components: {
     Header,
     Chart,
-    DashboardClick,
+    Modal,
   },
   data() {
     return {
@@ -132,21 +140,6 @@ export default {
     };
   },
   methods: {
-    hadir(no, id) {
-      this.reservasi.data[no].hadir = true;
-      this.reservasi.data[no].jam_mula = moment().format("X");
-      this.reservasi.data[no].jam_final = moment()
-        .add(this.pertemuan.data[0].waktu, "minutes")
-        .format("X");
-      axios
-        .put("/reservasi/" + id, this.reservasi.data[no])
-        .then(
-          $(function () {
-            toastr.success("Hadir");
-          })
-        )
-        .catch((error) => console.log(error));
-    },
     updateCurrentTime() {
       this.currentTime = moment().format("X");
     },
@@ -183,8 +176,7 @@ export default {
         $(function () {
           $("#datareservasi")
             .DataTable({
-              responsive: true,
-              autoWidth: false,
+              autoWidth: true,
             })
             .buttons()
             .container()
