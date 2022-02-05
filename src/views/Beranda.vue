@@ -1,5 +1,6 @@
 <template>
   <div>
+    <DashboardClick v-if="rightClick" :sambang="sbg" :loc="style" />
     <Header msg="Dashboard" />
     <section class="content">
       <div class="container-fluid">
@@ -13,36 +14,32 @@
               <div class="card-body">
                 <table
                   id="datareservasi"
-                  class="table table-bordered table-striped"
+                  class="table table-bordered table-hover"
                 >
-                  <thead>
+                  <thead class="thead-light">
                     <tr>
                       <th>No.</th>
                       <th>Nomor Pengurus</th>
                       <th>Nama Wali</th>
                       <th>Tgl Kunjungan</th>
-                      <th>Detail Santri</th>
-                      <th>Kehadiran</th>
+                      <!-- <th>Kehadiran</th>
                       <th>Jam Mulai</th>
                       <th>Jam Akhir</th>
-                      <th>Status Pertemuan</th>
+                      <th>Status Pertemuan</th> -->
                     </tr>
                   </thead>
                   <tbody>
                     <tr
                       v-for="(sambang, no) in reservasi.data"
                       :key="sambang.id"
+                      v-on:click.right="rightC(--no)"
+                      @click="leftC"
                     >
                       <td class="text-center">{{ ++no }}</td>
                       <td>Nomer Pengurus</td>
                       <td>{{ sambang.reservasi_walis[0].wali.nama_wali }}</td>
                       <td class="text-center">{{ sambang.tgl_kunjungan }}</td>
-                      <td class="text-center">
-                        <router-link :to="/reservasi/ + sambang.id"
-                          >Detail</router-link
-                        >
-                      </td>
-                      <td class="text-center">
+                      <!-- <td class="text-center">
                         <input
                           v-if="sambang.hadir == false"
                           type="radio"
@@ -76,7 +73,7 @@
                       >
                         <i class="fas fa-check-circle"></i> Berlangsung
                       </td>
-                      <td v-else></td>
+                      <td v-else></td> -->
                     </tr>
                   </tbody>
                 </table>
@@ -102,6 +99,7 @@
 <script>
 import Header from "@/components/Header.vue";
 import Chart from "@/components/Chart.vue";
+import DashboardClick from "@/components/DashboardClick.vue";
 import axios from "axios";
 import $ from "jquery";
 import toastr from "admin-lte/plugins/toastr/toastr.min";
@@ -112,6 +110,7 @@ export default {
   components: {
     Header,
     Chart,
+    DashboardClick,
   },
   data() {
     return {
@@ -119,6 +118,17 @@ export default {
       reservasi: [],
       pertemuan: {},
       currentTime: null,
+      rightClick: false,
+      sbg: {},
+      style: {
+        top: "0px",
+        left: "0px",
+        position: "fixed",
+        zIndex: 99999999,
+        width: "150px",
+        backgroundColor: "rgb(61, 61, 61)",
+        borderRadius: "10px",
+      },
     };
   },
   methods: {
@@ -142,6 +152,27 @@ export default {
     },
     formatTime(jam) {
       return moment.unix(jam).format("HH:mm");
+    },
+    rightC(no) {
+      event.preventDefault();
+      this.sbg = this.reservasi.data[no];
+      this.rightClick = true;
+      this.style.top = event.y + "px";
+      this.style.left = event.x + "px";
+      // this.style.transform = "scale(0)";
+      // this.style.transition = "transform 200ms ease-in-out";
+    },
+    leftC(event) {
+      event.preventDefault();
+      this.rightClick = false;
+      // this.style.transform = "scale(0)";
+      // this.style.transition = "";
+    },
+    itemmenu(no) {
+      console.log(this.reservasi.data[no]);
+    },
+    goto(no) {
+      console.log(no);
     },
   },
   mounted() {
@@ -175,3 +206,26 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+/* #clickright {
+  position: fixed;
+  z-index: 99999999;
+  width: 150px;
+  background-color: #1b1a1a;
+  transform: scale(0);
+  transform-origin: top left;
+  border-radius: 10px;
+} */
+
+/* #clickright .item {
+  display: block;
+  padding: 8px 10px;
+  font-size: 15px;
+  color: #eee;
+}
+
+#clickright .item:hover {
+  background-color: #555;
+} */
+</style>
