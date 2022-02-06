@@ -22,6 +22,7 @@
                       <th>Nomor Pengurus</th>
                       <th>Nama Wali</th>
                       <th>Tgl Kunjungan</th>
+                      <th>Detail</th>
                       <th>Kehadiran</th>
                       <th>Jam Mulai</th>
                       <th>Jam Akhir</th>
@@ -32,8 +33,6 @@
                     <tr
                       v-for="(sambang, no) in reservasi.data"
                       :key="sambang.id"
-                      v-on:click.right="rightC(--no)"
-                      @click="leftC"
                     >
                       <td class="text-center">{{ ++no }}</td>
                       <td>Nomer Pengurus</td>
@@ -82,7 +81,6 @@
                         <i class="fas fa-check-circle"></i> Berlangsung
                       </td>
                       <td v-else></td>
-                      -->
                     </tr>
                   </tbody>
                 </table>
