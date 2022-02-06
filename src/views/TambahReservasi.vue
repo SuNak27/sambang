@@ -329,8 +329,12 @@ export default {
       reservasiId: {},
       reservasi_wali: {},
       reservasi_santri: {},
-      shift: [],
-      hari: [],
+      shift: {
+        data: [],
+      },
+      hari: {
+        data: [],
+      },
       checkShift: {},
       check: {},
       informasi: [],
@@ -383,11 +387,16 @@ export default {
       axios
         .get("/hari/shift/" + event.target.value)
         .then((response) => {
-          this.hari = response.data;
+          const data = [];
+          for (let i = 0; i < response.data.data.length; i++) {
+            const element = response.data.data[i];
+            if (element.status == "Aktif") {
+              data.push(element);
+            }
+          }
+          this.hari.data = data;
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch();
       axios
         .get("/shift/" + event.target.value)
         .then((response) => {
@@ -455,9 +464,6 @@ export default {
       } else {
         return weekday;
       }
-      // Disable weekends (Sunday = `0`, Saturday = `6`) and
-      // disable days that fall on the 13th of the month
-      // Return `true` if the date should be disabled
     },
     simpan() {
       this.reservasi.no_mahrom = this.nik;
@@ -569,15 +575,15 @@ export default {
   mounted() {
     axios
       .get("/shift")
-      .then((response) => (this.shift = response.data))
-      .catch(function (error) {
-        if (error.response.status === 401) {
-          localStorage.removeItem("token");
-          localStorage.removeItem("user");
-          localStorage.removeItem("role");
-          this.$router.push({ path: "/login" });
+      .then((response) => {
+        for (let i = 0; i < response.data.data.length; i++) {
+          const element = response.data.data[i];
+          if (element.status == "Aktif") {
+            this.shift.data.push(element);
+          }
         }
-      });
+      })
+      .catch();
 
     axios
       .get("/informasi")
