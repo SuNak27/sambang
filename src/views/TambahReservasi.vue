@@ -154,7 +154,13 @@
                         close-button
                         readonly
                       ></b-form-datepicker>
-                      <div v-if="reservasi.tgl_kunjungan && nik != ''">
+                      <div
+                        v-if="
+                          reservasi.tgl_kunjungan &&
+                          nik != '' &&
+                          mahrom.length != 0
+                        "
+                      >
                         <Info
                           :value="info()"
                           :data="this.mahrom"
@@ -381,7 +387,11 @@ export default {
       axios
         .get("/reservasi/mahrom/" + this.nik)
         .then((response) => (this.mahrom = response.data))
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          if (error.response.status === 400) {
+            this.mahrom = [];
+          }
+        });
     },
     filterHari(event) {
       axios
@@ -527,8 +537,12 @@ export default {
       }
     },
     moreSambang() {
-      this.groupedData = this.tgl(this.mahrom.data, "tgl_kunjungan");
-      return this.sambang;
+      if (this.mahrom.length != 0) {
+        this.groupedData = this.tgl(this.mahrom.data, "tgl_kunjungan");
+        return this.sambang;
+      } else {
+        return this.sambang;
+      }
     },
     tgl(arr, prop) {
       var grouped = {};

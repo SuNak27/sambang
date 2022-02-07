@@ -80,8 +80,12 @@ export default {
         .format("yyyy-MM-DD");
     },
     moreSambang() {
-      this.groupedData = this.tgl(this.reservasiMahrom.data, "tgl_kunjungan");
-      return this.sambang;
+      if (this.reservasiMahrom.length != 0) {
+        this.groupedData = this.tgl(this.reservasiMahrom.data, "tgl_kunjungan");
+        return this.sambang;
+      } else {
+        return this.sambang;
+      }
     },
     tgl(arr, prop) {
       var grouped = {};
