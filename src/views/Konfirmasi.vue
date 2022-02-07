@@ -122,6 +122,7 @@
 <script>
 import Header from "@/components/Header.vue";
 import axios from "axios";
+import toastr from "admin-lte/plugins/toastr/toastr.min";
 
 export default {
   name: "konfirmasi",
@@ -157,6 +158,7 @@ export default {
           localStorage.removeItem("token");
           localStorage.removeItem("user");
           localStorage.removeItem("role");
+          toastr.error("Login expired. refresh halaman");
           this.$router.push({ path: "/login" });
         }
       });

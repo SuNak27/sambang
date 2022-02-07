@@ -81,6 +81,7 @@
 import Header from "@/components/Header.vue";
 import axios from "axios";
 import $ from "jquery";
+import toastr from "admin-lte/plugins/toastr/toastr.min";
 
 export default {
   name: "Shift",
@@ -129,9 +130,12 @@ export default {
         });
       })
       .catch(function (error) {
-        if (error.response.status == 401) {
+        if (error.response.status === 401) {
           localStorage.removeItem("token");
-          this.$router.go();
+          localStorage.removeItem("user");
+          localStorage.removeItem("role");
+          toastr.error("Login expired. refresh halaman");
+          this.$router.push({ path: "/login" });
         }
       });
   },

@@ -102,7 +102,6 @@ export default {
               localStorage.setItem("user", response.data.nama);
 
               toastr.success("Berhasil");
-              this.$router.push({ name: "Beranda" });
               this.$router.go();
             }
           })

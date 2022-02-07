@@ -81,6 +81,7 @@ import Modal from "@/components/Modal.vue";
 import axios from "axios";
 import moment from "moment";
 import $ from "jquery";
+import toastr from "admin-lte/plugins/toastr/toastr.min";
 
 export default {
   name: "Reservasi",
@@ -120,9 +121,12 @@ export default {
         });
       })
       .catch(function (error) {
-        if (error.response.status == 401) {
+        if (error.response.status === 401) {
           localStorage.removeItem("token");
-          this.$router.push("/login");
+          localStorage.removeItem("user");
+          localStorage.removeItem("role");
+          toastr.error("Login expired. refresh halaman");
+          this.$router.push({ path: "/login" });
         }
       });
 
@@ -132,9 +136,11 @@ export default {
         this.pertemuan = response.data;
       })
       .catch(function (error) {
-        if (error.response.status == 401) {
+        if (error.response.status === 401) {
           localStorage.removeItem("token");
-          this.$router.push("/login");
+          localStorage.removeItem("user");
+          localStorage.removeItem("role");
+          this.$router.push({ path: "/login" });
         }
       });
   },

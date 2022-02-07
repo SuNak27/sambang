@@ -169,6 +169,7 @@ export default {
           localStorage.removeItem("token");
           localStorage.removeItem("user");
           localStorage.removeItem("role");
+          toastr.error("Login expired. refresh halaman");
           this.$router.push({ path: "/login" });
         }
       });
