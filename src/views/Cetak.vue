@@ -27,7 +27,6 @@
                         >
                           <i class="fas fa-print"></i> Print
                         </router-link>
-                        <button class="btn btn-danger mt-3 ml-2">Batal</button>
                       </div>
                     </div>
                   </div>
